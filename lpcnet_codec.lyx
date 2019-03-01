@@ -1,0 +1,760 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+
+
+\usepackage{INTERSPEECH2019}
+
+\usepackage[pdftex,linkcolor=black,urlcolor=black,citecolor=black,pdfpagemode=None,pdfstartview=FitH,pdfview=FitH,colorlinks=true,pdftitle=LPCNet: Improving Neural Speech Synthesis Through Linear Prediction,pdfauthor=Jean-Marc Valin]{hyperref}
+\end_preamble
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package none
+\inputencoding auto
+\fontencoding default
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize a4paper
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 0
+\use_package cancel 0
+\use_package esint 0
+\use_package mathdots 0
+\use_package mathtools 0
+\use_package mhchem 0
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+title{A Real-Time Wideband Neural Vocoder at 1.6 kb/s}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+name{Author Name$^1$, Co-author Name$^2$}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+address{   $^1$Author Affiliation
+\backslash
+
+\backslash
+   $^2$Co-author Affiliation}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+email{author@university.edu, coauthor@company.com} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+maketitle
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Abstract
+This is all very abstract
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\series bold
+Index Terms
+\series default
+: neural speech synthesis, wideband coding, LPCNet, WaveRNN
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+Wavenet
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "van2016wavenet"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+WaveRNN and LPCNet
+\end_layout
+
+\begin_layout Standard
+WaveRNN was proposed in
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kalchbrenner2018efficient"
+literal "false"
+
+\end_inset
+
+ as a more computationally efficient alternative to WaveNet.
+ Its use of a recurrent neural network (RNN) along with sparse matrices
+ makes it possible to achieve real-time synthesis without a GPU.
+ More recently, we proposed the LPCNet
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lpcnet"
+literal "false"
+
+\end_inset
+
+ model, which improves on WaveRNN by augmenting the RNN with linear prediction
+ and further improving the efficiency of WaveRNN.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering{
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename overview.pdf
+	width 100col%
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+asdfg
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Features and Quantization
+\end_layout
+
+\begin_layout Standard
+LPCNet is designed to operate with 10\SpecialChar softhyphen
+ms features.
+ To achieve a low bitrate, we use 40\SpecialChar softhyphen
+ms packets, each representing 4
+\begin_inset space ~
+\end_inset
+
+LPCNet frames.
+\end_layout
+
+\begin_layout Subsection
+Bit Allocation
+\end_layout
+
+\begin_layout Standard
+Bit allocation in Table
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Bit-allocation"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Bit allocation for a 40\SpecialChar softhyphen
+ms frame.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Bit-allocation"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering{
+\end_layout
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="2">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Parameter
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bits
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Energy
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pitch period
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pitch modulation
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pitch gain
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cepstrum VQ (40
+\begin_inset space ~
+\end_inset
+
+ms)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+30
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cepstrum delta (20
+\begin_inset space ~
+\end_inset
+
+ms)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cepstrum interpolation (10
+\begin_inset space ~
+\end_inset
+
+ms)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Total
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+64
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Pitch
+\end_layout
+
+\begin_layout Standard
+Extracting the correct pitch (without period doubling of halving) is very
+ important for a vocoder since no residual is coded to make up for prediction
+ errors.
+ 
+\end_layout
+
+\begin_layout Standard
+5ms sub-frames, finding the set of pitch lags 
+\begin_inset Formula $\tau_{i}$
+\end_inset
+
+ maximizes the following expression:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+J=\sum_{i}\left[w_{i}r\left(\tau_{i}\right)+P\left(\tau_{i}-\tau_{i-1}\right)\right]\,,
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $w_{i}$
+\end_inset
+
+ is the ratio of the sub-frame energy over the average energy over the 40\SpecialChar softhyphen
+ms
+ packet, 
+\begin_inset Formula $P\left(\Delta_{\tau}\right)$
+\end_inset
+
+ is a transition penalty, and 
+\begin_inset Formula $r\left(\tau_{i}\right)$
+\end_inset
+
+ is a modified pitch correlation.
+ 
+\end_layout
+
+\begin_layout Standard
+The optimal path can be computed using dynamic programming with a Viterbi
+ search.
+ Since the entire audio is not available at once, the running values of
+ 
+\begin_inset Formula $J$
+\end_inset
+
+ are updated for every sub-frame and the Viterbi backtrack pass is computed
+ once per 40\SpecialChar softhyphen
+ms packet, over all 8
+\begin_inset space ~
+\end_inset
+
+sub-frames.
+ This ensures a consistent pitch over the frame.
+ 
+\end_layout
+
+\begin_layout Standard
+The allowed pitch values range from 62.5
+\begin_inset space ~
+\end_inset
+
+Hz to 500
+\begin_inset space ~
+\end_inset
+
+Hz.
+ The pitch is encoded on a logarithmic scale using 6
+\begin_inset space ~
+\end_inset
+
+bits, resulting in quantization intervals of 0.57
+\begin_inset space ~
+\end_inset
+
+semitones.
+ 
+\end_layout
+
+\begin_layout Standard
+A linear modulation parameter allows up to 16% variation (2.5
+\begin_inset space ~
+\end_inset
+
+semitones) between the first and last sub-frame.
+ It is encoded with 3 bits representing a 
+\begin_inset Formula $\left[-3,3\right]$
+\end_inset
+
+ range with the two different codes for 0 (constant modulation), one of
+ which also signals that the pitch correlation is less than 0.3.
+ 
+\end_layout
+
+\begin_layout Subsection
+Cepstrum
+\end_layout
+
+\begin_layout Standard
+18-band mel spectrum, 20\SpecialChar softhyphen
+ms window, 10\SpecialChar softhyphen
+ms interval
+\end_layout
+
+\begin_layout Section
+Training
+\end_layout
+
+\begin_layout Standard
+Improved compated to the original LPCNet
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lpcnet"
+literal "false"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Train with unquaantized features (cepstrum only?), domain adaptation to
+ quantized features.
+ Only the frame rate network is retrained
+\end_layout
+
+\begin_layout Section
+Evaluation
+\end_layout
+
+\begin_layout Subsection
+Complexity
+\end_layout
+
+\begin_layout Subsection
+Experimental Setup
+\end_layout
+
+\begin_layout Subsection
+Quality
+\end_layout
+
+\begin_layout Section
+Conclusions
+\end_layout
+
+\begin_layout Standard
+This concludes the conclusion
+\end_layout
+
+\begin_layout Section
+Acknowledgements
+\end_layout
+
+\begin_layout Standard
+We're like to acknowledge that there are acknowledgements.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "lpcnet"
+options "IEEEtran"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
