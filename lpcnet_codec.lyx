@@ -92,7 +92,7 @@ status open
 
 
 \backslash
-title{A Real-Time Wideband Neural Vocoder at 1.6 kb/s}
+title{A Real-Time Wideband Neural Vocoder at 1.6 kb/s Using LPCNet}
 \end_layout
 
 \begin_layout Plain Layout
@@ -159,7 +159,14 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-Wavenet
+Vocoders since 1970s [LPC].
+ Spectrum is easy, excitation is hard.
+ Some advances [MELP, codec2, ...], but no highly natural synthesis.
+ 
+\end_layout
+
+\begin_layout Standard
+Recently Wavenet
 \begin_inset space ~
 \end_inset
 
@@ -171,7 +178,22 @@ literal "false"
 
 \end_inset
 
+ for synthesis, which was subsequently used as a codec 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kleijn2018wavenet"
+literal "false"
 
+\end_inset
+
+.
+ WaveNet and SampleRNN typically have a complexity in the order of 50 GFLOPS.
+ 
+\end_layout
+
+\begin_layout Standard
+Focus on real-time usability.
+ 
 \end_layout
 
 \begin_layout Section
@@ -209,6 +231,31 @@ literal "false"
  model, which improves on WaveRNN by augmenting the RNN with linear prediction
  and further improving the efficiency of WaveRNN.
  
+\end_layout
+
+\begin_layout Standard
+Pre-emphasis, 256-level 
+\begin_inset Formula $\mu$
+\end_inset
+
+\SpecialChar nobreakdash
+law quantization, LPC, sparse matrices, dual_FC
+\end_layout
+
+\begin_layout Standard
+GRU
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cho2014properties"
+literal "false"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -255,7 +302,36 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-asdfg
+Overview of the LPCNet model.
+ The frame rate network (yellow) operates on 10\SpecialChar nobreakdash
+ms frames and its output
+ is held constant through each frame for the sample rate network (blue).
+ The 
+\emph on
+compute prediction
+\emph default
+ block applies linear prediction to predict the sample at time 
+\begin_inset Formula $t$
+\end_inset
+
+ from the previous samples.
+ Conversions between 
+\begin_inset Formula $\mu$
+\end_inset
+
+-law and linear are omitted for clarity.
+ The de-emphasis filter is applied to the output 
+\begin_inset Formula $s_{t}$
+\end_inset
+
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Overview-of-LPCNet"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -277,9 +353,9 @@ Features and Quantization
 \end_layout
 
 \begin_layout Standard
-LPCNet is designed to operate with 10\SpecialChar softhyphen
+LPCNet is designed to operate with 10\SpecialChar nobreakdash
 ms features.
- To achieve a low bitrate, we use 40\SpecialChar softhyphen
+ To achieve a low bitrate, we use 40\SpecialChar nobreakdash
 ms packets, each representing 4
 \begin_inset space ~
 \end_inset
@@ -323,7 +399,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Bit allocation for a 40\SpecialChar softhyphen
+Bit allocation for a 40\SpecialChar nobreakdash
 ms frame.
 \begin_inset CommandInset label
 LatexCommand label
@@ -605,7 +681,7 @@ where
 \begin_inset Formula $w_{i}$
 \end_inset
 
- is the ratio of the sub-frame energy over the average energy over the 40\SpecialChar softhyphen
+ is the ratio of the sub-frame energy over the average energy over the 40\SpecialChar nobreakdash
 ms
  packet, 
 \begin_inset Formula $P\left(\Delta_{\tau}\right)$
@@ -628,13 +704,14 @@ The optimal path can be computed using dynamic programming with a Viterbi
 \end_inset
 
  are updated for every sub-frame and the Viterbi backtrack pass is computed
- once per 40\SpecialChar softhyphen
+ once per 40\SpecialChar nobreakdash
 ms packet, over all 8
 \begin_inset space ~
 \end_inset
 
 sub-frames.
- This ensures a consistent pitch over the frame.
+ While that does not guarantee finding the optimal path, it ensures a consistent
+ pitch over the duration of the packet.
  
 \end_layout
 
@@ -661,7 +738,7 @@ semitones.
 \end_layout
 
 \begin_layout Standard
-A linear modulation parameter allows up to 16% variation (2.5
+A linear pitch modulation parameter allows up to 16% variation (2.5
 \begin_inset space ~
 \end_inset
 
@@ -671,7 +748,8 @@ semitones) between the first and last sub-frame.
 \end_inset
 
  range with the two different codes for 0 (constant modulation), one of
- which also signals that the pitch correlation is less than 0.3.
+ which also signals that the pitch correlation is less than 0.3 (the modulation
+ is zero when the pitch correlation is too small).
  
 \end_layout
 
@@ -680,9 +758,26 @@ Cepstrum
 \end_layout
 
 \begin_layout Standard
-18-band mel spectrum, 20\SpecialChar softhyphen
-ms window, 10\SpecialChar softhyphen
-ms interval
+Bands layout from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "valin2017hybrid"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+18-band mel spectrum, 20\SpecialChar nobreakdash
+ms window, 10\SpecialChar nobreakdash
+ms interval.
+\end_layout
+
+\begin_layout Standard
+Benefits from prediction decrease with packet size and robustness costs
+ increase.
 \end_layout
 
 \begin_layout Section
@@ -690,7 +785,7 @@ Training
 \end_layout
 
 \begin_layout Standard
-Improved compated to the original LPCNet
+Improved compared to the original LPCNet
 \begin_inset space ~
 \end_inset
 
@@ -707,25 +802,362 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-Train with unquaantized features (cepstrum only?), domain adaptation to
- quantized features.
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering{
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename training_noise.pdf
+	width 100col%
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Noise injection during the training procedure, with 
+\begin_inset Formula $Q$
+\end_inset
+
+ denoting 
+\begin_inset Formula $\mu$
+\end_inset
+
+-law quantization and 
+\begin_inset Formula $Q^{-1}$
+\end_inset
+
+ denoting conversion from 
+\begin_inset Formula $\mu$
+\end_inset
+
+-law to linear.
+ The prediction filter filter is given by 
+\begin_inset Formula $P\left(z\right)=\sum_{k=1}^{M}a_{k}z^{-k}$
+\end_inset
+
+.
+ The target excitation is computed as the difference between the clean,
+ unquantized input and the noisy prediction.
+ Note that the noise is added in the 
+\begin_inset Formula $\mu$
+\end_inset
+
+-law domain so that its power follows that of the real excitation signal.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Noise-injection"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Train with unquantized features (cepstrum only?), domain adaptation to quantized
+ features.
  Only the frame rate network is retrained
+\end_layout
+
+\begin_layout Standard
+Training data from NTT, varying level, varying frequency response
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "valin2017hybrid"
+literal "false"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
 Evaluation
 \end_layout
 
+\begin_layout Standard
+Code on Github
+\end_layout
+
 \begin_layout Subsection
 Complexity
+\end_layout
+
+\begin_layout Standard
+The number of weights in the sample rate network is given by
+\begin_inset Formula 
+\[
+W=3dN_{A}^{2}+3N_{B}\left(N_{A}+N_{B}\right)+2N_{B}Q\,,
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $N_{A}$
+\end_inset
+
+ and 
+\begin_inset Formula $N_{B}$
+\end_inset
+
+ are the sizes of the two GRUs, 
+\begin_inset Formula $d$
+\end_inset
+
+ is the density of the sparse GRU, 
+\begin_inset Formula $Q$
+\end_inset
+
+ is the number of 
+\begin_inset Formula $\mu$
+\end_inset
+
+-law levels.
+ 
+\end_layout
+
+\begin_layout Standard
+exp=15, tanh=19, sig=18, softmax=21
+\end_layout
+
+\begin_layout Standard
+Activation functions: ~1 GFLOPS
+\end_layout
+
+\begin_layout Standard
+Compare to WaveNet-based
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kleijn2018wavenet"
+literal "false"
+
+\end_inset
+
+ and
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Garbacea2019"
+literal "false"
+
+\end_inset
+
+ and to
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "klejsa2018high"
+literal "false"
+
+\end_inset
+
+, based on SampleRNN
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mehri2016samplernn"
+literal "false"
+
+\end_inset
+
+.
+ 
 \end_layout
 
 \begin_layout Subsection
 Experimental Setup
 \end_layout
 
+\begin_layout Standard
+The model is trained using 4
+\begin_inset space ~
+\end_inset
+
+hours of speech from the NTT Multi-Lingual Speech Database for Telephonometry
+ (21
+\begin_inset space ~
+\end_inset
+
+languages), from which we excluded all samples from the speakers used in
+ testing.
+ By varying the level and frequency response, we generate 14 hours of augmented
+ speech data.
+ The unquantized network was trained for 120
+\begin_inset space ~
+\end_inset
+
+epochs (625k
+\begin_inset space ~
+\end_inset
+
+updates), with a batch size size of 64, each sequence consisting of 4800
+\begin_inset space ~
+\end_inset
+
+samples (15
+\begin_inset space ~
+\end_inset
+
+frames).
+ Training was performed on an Nvidia GPU with Keras
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+url{https://keras.io/}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+/Tensorflow
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+url{https://www.tensorflow.org/}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ using the CuDNN GRU implementation and the AMSGrad
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "reddi2018convergence"
+literal "false"
+
+\end_inset
+
+ optimization method (Adam variant) with a step size 
+\begin_inset Formula $\alpha=\frac{\alpha_{0}}{1+\delta\cdot b}$
+\end_inset
+
+ where 
+\begin_inset Formula $\alpha_{0}=0.001$
+\end_inset
+
+, 
+\begin_inset Formula $\delta=5\times10^{-5},$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+ is the batch number.
+ 
+\end_layout
+
 \begin_layout Subsection
 Quality
+\end_layout
+
+\begin_layout Standard
+MUSHRA-derived methodology
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "BS1534"
+literal "false"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -733,7 +1165,7 @@ Conclusions
 \end_layout
 
 \begin_layout Standard
-This concludes the conclusion
+This conclusively concludes the conclusion
 \end_layout
 
 \begin_layout Section
@@ -741,7 +1173,7 @@ Acknowledgements
 \end_layout
 
 \begin_layout Standard
-We're like to acknowledge that there are acknowledgements.
+We'd like to acknowledge that there are acknowledgements.
 \end_layout
 
 \begin_layout Standard
