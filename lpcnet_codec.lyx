@@ -657,21 +657,30 @@ Pitch
 Extracting the correct pitch (without period doubling of halving) is very
  important for a vocoder since no residual is coded to make up for prediction
  errors.
+ During development, we have observed that unlike traditional vocoders,
+ the neural vocoder has some ability to compensate for incorrect pitch values,
+ but only up to a point.
+ Moreover, that ability is reduced when the cepstrum is quantized.
  
 \end_layout
 
 \begin_layout Standard
-5ms sub-frames, finding the set of pitch lags 
+The pitch search operates on the excitation signal.
+ Maximizing the correlation over an entire 40\SpecialChar nobreakdash
+ms packet does not produce
+ good results because the pitch can vary within that time.
+ Instead, we divide each packet in 5ms sub-frames, and find the set of pitch
+ lags 
 \begin_inset Formula $\tau_{i}$
 \end_inset
 
- maximizes the following expression:
+ that maximize the following expression:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-J=\sum_{i}\left[w_{i}r\left(\tau_{i}\right)+P\left(\tau_{i}-\tau_{i-1}\right)\right]\,,
+J=\sum_{i}\left[w_{i}r\left(\tau_{i}\right)+\Theta\left(\tau_{i}-\tau_{i-1}\right)\right]\,,
 \]
 
 \end_inset
@@ -683,7 +692,7 @@ where
  is the ratio of the sub-frame energy over the average energy over the 40\SpecialChar nobreakdash
 ms
  packet, 
-\begin_inset Formula $P\left(\Delta_{\tau}\right)$
+\begin_inset Formula $\Theta\left(\Delta_{\tau}\right)$
 \end_inset
 
  is a transition penalty, and 
@@ -777,6 +786,10 @@ ms interval.
 \begin_layout Standard
 Benefits from prediction decrease with packet size and robustness costs
  increase.
+\end_layout
+
+\begin_layout Standard
+LPC computed from the quantized spectrum
 \end_layout
 
 \begin_layout Section
