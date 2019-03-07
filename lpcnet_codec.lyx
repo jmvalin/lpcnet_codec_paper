@@ -151,7 +151,7 @@ This is all very abstract
 \series bold
 Index Terms
 \series default
-: neural speech synthesis, wideband coding, LPCNet, WaveRNN
+: neural speech synthesis, wideband coding, vocoder, LPCNet, WaveRNN
 \end_layout
 
 \begin_layout Section
@@ -227,8 +227,8 @@ literal "false"
 
 \end_inset
 
- model, which improves on WaveRNN by augmenting the RNN with linear prediction
- and further improving the efficiency of WaveRNN.
+ model, which improves on the efficiency of WaveRNN by augmenting the RNN
+ with linear prediction.
  
 \end_layout
 
@@ -1030,7 +1030,15 @@ Activation functions: ~1.2 GFLOPS
 \end_layout
 
 \begin_layout Standard
-20% CPU on x86, with the 
+20% of a 2.4
+\begin_inset space ~
+\end_inset
+
+GHz Intel Broadwell core
+\end_layout
+
+\begin_layout Standard
+Even though the 
 \end_layout
 
 \begin_layout Standard
