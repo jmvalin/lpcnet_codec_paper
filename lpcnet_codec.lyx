@@ -192,7 +192,7 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-Focus on real-time usability.
+Focus on real-time usability, no speaker ID, reasonable latency.
 \end_layout
 
 \begin_layout Section
@@ -233,16 +233,47 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-Pre-emphasis, 256-level 
+The LPCNet model is summarized in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Overview-of-LPCNet"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ It operates on signals quantized using 256-level 
 \begin_inset Formula $\mu$
 \end_inset
 
 \SpecialChar nobreakdash
-law quantization, LPC, sparse matrices, dual_FC
+law.
+ To avoid audible quantization noise, a pre-emphasis filter 
+\begin_inset Formula $E(z)=1-\alpha z^{-1}$
+\end_inset
+
+ is used on the input speech (with 
+\begin_inset Formula $\alpha=0.85$
+\end_inset
+
+) and the inverse de-emphasis filter is applied to the output.
+ This shapes the noise in a way that it is not easily noticeable.
+ In addition to receiving as input the previously generated speech sample
+ 
+\begin_inset Formula $s_{t-1}$
+\end_inset
+
+, LPCNet also receives...
 \end_layout
 
 \begin_layout Standard
-GRU
+Like WaveRNN, LPCNet is based on a gated recurrent unit (GRU)
 \begin_inset space ~
 \end_inset
 
@@ -251,6 +282,27 @@ GRU
 LatexCommand cite
 key "cho2014properties"
 literal "false"
+
+\end_inset
+
+ layer.
+ To reduce the complexity, the recurrent matrices in the main GRU (
+\begin_inset Formula $\mathrm{GRU_{A}}$
+\end_inset
+
+) are sparse.
+ 
+\end_layout
+
+\begin_layout Standard
+The dual_DC layer is defined as 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathrm{dual\_fc}(\mathbf{x})=\mathbf{a}_{1}\circ\tanh\left(\mathbf{W}_{1}\mathbf{x}\right)+\mathbf{a}_{2}\circ\tanh\left(\mathbf{W}_{2}\mathbf{x}\right)\ ,\label{eq:dual_fc}
+\end{equation}
 
 \end_inset
 
@@ -572,7 +624,7 @@ ms)
 \begin_inset Text
 
 \begin_layout Plain Layout
-12
+13
 \end_layout
 
 \end_inset
@@ -596,7 +648,7 @@ ms)
 \begin_inset Text
 
 \begin_layout Plain Layout
-4
+3
 \end_layout
 
 \end_inset
@@ -616,7 +668,7 @@ Total
 \begin_inset Text
 
 \begin_layout Plain Layout
-64
+63
 \end_layout
 
 \end_inset
@@ -790,6 +842,22 @@ Benefits from prediction decrease with packet size and robustness costs
 
 \begin_layout Standard
 LPC computed from the quantized spectrum
+\end_layout
+
+\begin_layout Standard
+Inspired by B-frames
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "MPEG1"
+literal "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Section
