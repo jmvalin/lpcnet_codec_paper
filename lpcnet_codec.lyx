@@ -507,26 +507,6 @@ Bits
 \begin_inset Text
 
 \begin_layout Plain Layout
-Energy
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-7
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 Pitch period
 \end_layout
 
@@ -577,6 +557,26 @@ Pitch gain
 
 \begin_layout Plain Layout
 2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Energy (C0)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
 \end_layout
 
 \end_inset
@@ -668,7 +668,7 @@ Total
 \begin_inset Text
 
 \begin_layout Plain Layout
-63
+64
 \end_layout
 
 \end_inset
@@ -818,7 +818,17 @@ Cepstrum
 \end_layout
 
 \begin_layout Standard
-Bands layout from 
+The analysis operates on 20\SpecialChar nobreakdash
+ms windows with 50% overlap.
+ The cepstrum is computed from 18
+\begin_inset space ~
+\end_inset
+
+Bark-spaced bands following the layout in
+\begin_inset space ~
+\end_inset
+
+
 \begin_inset CommandInset citation
 LatexCommand cite
 key "valin2017hybrid"
@@ -826,26 +836,17 @@ literal "false"
 
 \end_inset
 
+.
+ Because we pack 4
+\begin_inset space ~
+\end_inset
 
-\end_layout
-
-\begin_layout Standard
-18-band mel spectrum, 20\SpecialChar nobreakdash
-ms window, 10\SpecialChar nobreakdash
-ms interval.
-\end_layout
-
-\begin_layout Standard
-Benefits from prediction decrease with packet size and robustness costs
- increase.
-\end_layout
-
-\begin_layout Standard
-LPC computed from the quantized spectrum
-\end_layout
-
-\begin_layout Standard
-Inspired by B-frames
+cepstral vectors in each packet, we wish to maximize redundancy elimination
+ within a packet while limiting dependencies across packets to reduce the
+ effect of packet loss.
+ For those reasons, we use a quantization scheme inspired from video codec
+ B\SpecialChar nobreakdash
+frames
 \begin_inset space ~
 \end_inset
 
@@ -858,6 +859,150 @@ literal "false"
 \end_inset
 
 .
+ 
+\end_layout
+
+\begin_layout Standard
+Let packet 
+\begin_inset Formula $k$
+\end_inset
+
+ include cepstral vectors 
+\begin_inset Formula $\mathbf{c}_{4k}$
+\end_inset
+
+ to 
+\begin_inset Formula $\mathbf{c}_{4k+3}$
+\end_inset
+
+, we first code all but the first component of 
+\begin_inset Formula $\mathbf{c}_{4k+3}$
+\end_inset
+
+ independently for each packet using a 3\SpecialChar nobreakdash
+stage codebook with 10
+\begin_inset space ~
+\end_inset
+
+bits for each stage.
+ An M-best (survivor) search help reduce the quantization error, but is
+ not strictly necessary.
+ The first component (C0) of 
+\begin_inset Formula $\mathbf{c}_{4k+3}$
+\end_inset
+
+ is coded with a uniform 7\SpecialChar nobreakdash
+bit scalar quantizer (0.83
+\begin_inset space ~
+\end_inset
+
+dB resolution).
+ From there, vector 
+\begin_inset Formula $\mathbf{c}_{4k+1}$
+\end_inset
+
+ is predictively coded from both 
+\begin_inset Formula $\mathbf{c}_{4k-1}$
+\end_inset
+
+ (independently coded in the previous frame) and 
+\begin_inset Formula $\mathbf{c}_{4k+3}$
+\end_inset
+
+.
+ We use a single bit to signal if the prediction is the average (
+\begin_inset Formula $\frac{\mathbf{c}_{4k-1}+\mathbf{c}_{4k+3}}{2}$
+\end_inset
+
+), or two bits if the prediction is either of 
+\begin_inset Formula $\mathbf{c}_{4k-1}$
+\end_inset
+
+ or 
+\begin_inset Formula $\mathbf{c}_{4k+3}$
+\end_inset
+
+.
+ The difference is then coded with a 12\SpecialChar nobreakdash
+bit + sign codebook for the average
+ or with an 11\SpecialChar nobreakdash
+bit + sign codebook if not, for a total of 14
+\begin_inset space ~
+\end_inset
+
+bits 
+\begin_inset Formula $\mathbf{c}_{4k+1}$
+\end_inset
+
+.
+ Although the average predictor is the most useful, including the single-vector
+ predictors improves the quantization of transients/onsets.
+ 
+\end_layout
+
+\begin_layout Standard
+Because there is insufficient bitrate to adequately code 
+\begin_inset Formula $\mathbf{c}_{4k}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{c}_{4k+2}$
+\end_inset
+
+, we only use a prediction from their neighbours.
+ Vector 
+\begin_inset Formula $\mathbf{c}_{4k}$
+\end_inset
+
+ is predicted from its neighbours 
+\begin_inset Formula $\mathbf{c}_{4k-1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{c}_{4k+1}$
+\end_inset
+
+, whereas 
+\begin_inset Formula $\mathbf{c}_{4k+2}$
+\end_inset
+
+ is predicted from 
+\begin_inset Formula $\mathbf{c}_{4k+1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{c}_{4k+3}$
+\end_inset
+
+.
+ Since there are 3
+\begin_inset space ~
+\end_inset
+
+options for each vector, we have 9
+\begin_inset space ~
+\end_inset
+
+possible combinations.
+ By eliminating the least useful combination (
+\begin_inset Formula $\mathbf{c}_{4k}=\mathbf{c}_{4k+1}=\mathbf{c}_{4k+2}$
+\end_inset
+
+), we can code the remaining ones with 3
+\begin_inset space ~
+\end_inset
+
+bits.
+ 
+\end_layout
+
+\begin_layout Standard
+Benefits from prediction decrease with packet size and robustness costs
+ increase.
+\end_layout
+
+\begin_layout Standard
+LPC computed from the quantized spectrum
 \end_layout
 
 \begin_layout Section
@@ -1086,8 +1231,8 @@ literal "false"
 \end_inset
 
 GFLOPS.
- The activation functions are based on a vectorized exponential that contributes
- 0.6
+ The activation functions are based on a vectorized exponential approximation
+ that contributes 0.6
 \begin_inset space ~
 \end_inset
 
@@ -1174,6 +1319,26 @@ literal "false"
 
 .
  
+\end_layout
+
+\begin_layout Standard
+The total complexity of the encoder is around 30
+\begin_inset space ~
+\end_inset
+
+MFLOPS, mostly due to the 5-best VQ search (14 MFLOPS) and the undecimated
+ 16
+\begin_inset space ~
+\end_inset
+
+kHz pitch search (8
+\begin_inset space ~
+\end_inset
+
+MFLOPS).
+ Although the encoder complexity could be significantly reduced, that should
+ be unnecessary in most applications since it is only 1% of the decoder
+ complexity.
 \end_layout
 
 \begin_layout Subsection
