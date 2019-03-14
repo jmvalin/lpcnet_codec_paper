@@ -978,12 +978,6 @@ name "fig:Noise-injection"
 \end_layout
 
 \begin_layout Standard
-Train with unquantized features (cepstrum only?), domain adaptation to quantized
- features.
- Only the frame rate network is retrained
-\end_layout
-
-\begin_layout Standard
 Training data from NTT, varying level, varying frequency response
 \begin_inset space ~
 \end_inset
@@ -997,6 +991,12 @@ literal "false"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Train with unquantized features (cepstrum only?), domain adaptation to quantized
+ features.
+ Only the frame rate network is retrained
 \end_layout
 
 \begin_layout Section
@@ -1086,15 +1086,29 @@ literal "false"
 \end_inset
 
 GFLOPS.
- 
+ The activation functions are based on a vectorized exponential that contributes
+ 0.6
+\begin_inset space ~
+\end_inset
+
+GFLOPS to the complexity, for a total of 3
+\begin_inset space ~
+\end_inset
+
+GFLOPS when counting the remaining operations.
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
 exp=15, tanh=19, sig=18, softmax=21
 \end_layout
 
-\begin_layout Standard
-Activation functions: ~1.2 GFLOPS
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1102,7 +1116,7 @@ Activation functions: ~1.2 GFLOPS
 \begin_inset space ~
 \end_inset
 
-GHz Intel Broadwell core
+GHz Intel Broadwell core, with the L2 cache bandwidth...
 \end_layout
 
 \begin_layout Standard
