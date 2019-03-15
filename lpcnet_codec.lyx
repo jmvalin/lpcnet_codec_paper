@@ -187,7 +187,11 @@ literal "false"
 \end_inset
 
 .
- WaveNet and SampleRNN typically have a complexity in the order of 50 GFLOPS.
+ WaveNet and SampleRNN typically have a complexity in the order of 50
+\begin_inset space ~
+\end_inset
+
+GFLOPS.
  
 \end_layout
 
@@ -296,9 +300,6 @@ literal "false"
 
 \begin_layout Standard
 The dual_DC layer is defined as 
-\end_layout
-
-\begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
 \mathrm{dual\_fc}(\mathbf{x})=\mathbf{a}_{1}\circ\tanh\left(\mathbf{W}_{1}\mathbf{x}\right)+\mathbf{a}_{2}\circ\tanh\left(\mathbf{W}_{2}\mathbf{x}\right)\ ,\label{eq:dual_fc}
@@ -1023,7 +1024,58 @@ literal "false"
 \end_inset
 
 .
- 
+ Training data from NTT, varying level, varying frequency response
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "valin2017hybrid"
+literal "false"
+
+\end_inset
+
+.
+ Add noise Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Noise-injection"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, which is an improvement on both
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "jin2018fftnet"
+literal "false"
+
+\end_inset
+
+ and
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lpcnet"
+literal "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -1123,25 +1175,13 @@ name "fig:Noise-injection"
 \end_layout
 
 \begin_layout Standard
-Training data from NTT, varying level, varying frequency response
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset CommandInset citation
-LatexCommand cite
-key "valin2017hybrid"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Train with unquantized features (cepstrum only?), domain adaptation to quantized
- features.
- Only the frame rate network is retrained
+Training is first performed with unquantized features.
+ When training a model for quantized features, we start with a model trained
+ on unquantized features, and apply domain adaptation to quantized features.
+ We have observed that better results are obtained when only the frame rate
+ network is adapted, with the sample rate network weights left unchanged.
+ In addition to the slightly better quality, this has the advantage of faster
+ training for new quantizers and also smaller 
 \end_layout
 
 \begin_layout Section
@@ -1257,11 +1297,34 @@ exp=15, tanh=19, sig=18, softmax=21
 \end_layout
 
 \begin_layout Standard
-20% of a 2.4
+Our C implementation (using AVX2/FMA) requires 20% of a 2.4
 \begin_inset space ~
 \end_inset
 
-GHz Intel Broadwell core, with the L2 cache bandwidth...
+GHz Intel Broadwell core for real-time decoding.
+ According to our analysis, the main performance bottleneck is the L2 cache
+ bandwidth required for the matrix-vector multiplications.
+ On ARM
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Our ARM implementation has Neon optimizations for the products but not for
+ the activation functions
+\end_layout
+
+\end_inset
+
+, real-time decoding on a 2.5
+\begin_inset space ~
+\end_inset
+
+GHz Snapdragon 845 (Google Pixel
+\begin_inset space ~
+\end_inset
+
+3 phone) requires X% of one core.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -1441,15 +1504,31 @@ literal "false"
 \end_inset
 
 , 
-\begin_inset Formula $\delta=5\times10^{-5},$
+\begin_inset Formula $\delta=5\times10^{-5}$
 \end_inset
 
- and 
+, and 
 \begin_inset Formula $b$
 \end_inset
 
  is the batch number.
- 
+ For model adaptation with quantized features, we used 40
+\begin_inset space ~
+\end_inset
+
+epochs (208k
+\begin_inset space ~
+\end_inset
+
+updates) with 
+\begin_inset Formula $\alpha_{0}=0.0001$
+\end_inset
+
+, 
+\begin_inset Formula $\delta=0$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Subsection
@@ -1457,7 +1536,7 @@ Quality
 \end_layout
 
 \begin_layout Standard
-MUSHRA-derived methodology
+We conducted a subjective listening test with a MUSHRA-derived methodology
 \begin_inset space ~
 \end_inset
 
@@ -1469,7 +1548,33 @@ literal "false"
 
 \end_inset
 
+.
+ 
+\end_layout
 
+\begin_layout Standard
+As an upper bound on the quality achievable with LPCNet at the target complexity
+ (higher quality is achievable with a larger model), we include LPCNet with
+ unquantized features.
+ We also compare with Opus wideband operating at 9
+\begin_inset space ~
+\end_inset
+
+kb/s (the lowest bitrate for which the encoder defaults to wideband) and
+ to the narrowband MELP codec.
+ As low anchor, we use Speex operating as a 4
+\begin_inset space ~
+\end_inset
+
+kb/s wideband vocoder (wideband quality 0).
+\end_layout
+
+\begin_layout Standard
+Since the LPCNet model was trained on multiple languages, it is expected
+ to also work in other languages.
+ While we did not conduct tests in other languages, informal listening indicates
+ that the quality obtained in French is comparable to that in English.
+ 
 \end_layout
 
 \begin_layout Section
