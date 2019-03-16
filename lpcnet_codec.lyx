@@ -413,14 +413,11 @@ ms packets, each representing 4
 \end_inset
 
 LPCNet frames.
-\end_layout
+ Each packet is coded with 64
+\begin_inset space ~
+\end_inset
 
-\begin_layout Subsection
-Bit Allocation
-\end_layout
-
-\begin_layout Standard
-Bit allocation in Table
+bits, allocated as shown in Table
 \begin_inset space ~
 \end_inset
 
@@ -434,7 +431,12 @@ noprefix "false"
 
 \end_inset
 
+, for a total bitrate of 1.6
+\begin_inset space ~
+\end_inset
 
+kb/s (CBR).
+ 
 \end_layout
 
 \begin_layout Standard
@@ -722,7 +724,8 @@ The pitch search operates on the excitation signal.
  Maximizing the correlation over an entire 40\SpecialChar nobreakdash
 ms packet does not produce
  good results because the pitch can vary within that time.
- Instead, we divide each packet in 5ms sub-frames, and find the set of pitch
+ Instead, we divide each packet in 5\SpecialChar nobreakdash
+ms sub-frames, and find the set of pitch
  lags 
 \begin_inset Formula $\tau_{i}$
 \end_inset
@@ -859,8 +862,21 @@ literal "false"
 
 \end_inset
 
+, as illustrated in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Prediction-and-quantization"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
 .
- 
 \end_layout
 
 \begin_layout Standard
@@ -1044,7 +1060,27 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Illustrating the prediction and quantization
+Prediction and quantization of the cepstrum for packet
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $k$
+\end_inset
+
+.
+ Vectors in green are quantized independently, vectors in blue are quantized
+ with prediction, and vectors in red use prediction with no residual quantizatio
+n.
+ Prediction is shown by the arrows.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Prediction-and-quantization"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1062,8 +1098,13 @@ Illustrating the prediction and quantization
 \end_layout
 
 \begin_layout Standard
-Benefits from prediction decrease with packet size and robustness costs
- increase.
+In case of packet loss, error propagation is limited to a worst case of
+ 30
+\begin_inset space ~
+\end_inset
+
+ms.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -1374,7 +1415,7 @@ status open
 
 \begin_layout Plain Layout
 Our ARM implementation has Neon optimizations for the products but not for
- the activation functions
+ the activation functions.
 \end_layout
 
 \end_inset
@@ -1618,15 +1659,51 @@ literal "false"
 
 \begin_layout Standard
 As an upper bound on the quality achievable with LPCNet at the target complexity
- (higher quality is achievable with a larger model), we include LPCNet with
- unquantized features.
- We also compare with Opus wideband operating at 9
+ (higher quality is achievable with a larger model), we include LPCNet operating
+ on unquantized features.
+ We also compare with Opus
 \begin_inset space ~
 \end_inset
 
-kb/s (the lowest bitrate for which the encoder defaults to wideband) and
- to the narrowband MELP codec.
- As low anchor, we use Speex operating as a 4
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "rfc6716"
+literal "false"
+
+\end_inset
+
+ wideband operating at 9
+\begin_inset space ~
+\end_inset
+
+kb/s VBR (the lowest bitrate for which the encoder defaults to wideband)
+ and to the narrowband MELP
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mccree1996"
+literal "false"
+
+\end_inset
+
+ vocoder.
+ As low anchor, we use Speex
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "valin2007speex"
+literal "false"
+
+\end_inset
+
+ operating as a 4
 \begin_inset space ~
 \end_inset
 
