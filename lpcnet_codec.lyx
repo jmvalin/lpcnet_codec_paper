@@ -145,6 +145,22 @@ maketitle
 This is all very abstract
 \end_layout
 
+\begin_layout Abstract
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{4cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 \noindent
 
@@ -228,17 +244,120 @@ literal "false"
  ranging in the tens of GFLOPS.
  This typically makes it impossible to use them in real time without high-end
  hardware (if at all).
+ In this work, we focus on simpler models, that are can be implemented on
+ general-purpose hardware and mobile devices for real-time communication,
+ and that work for any speaker using any language.
+ Moreover, we target the very low bitrate of 1.6
+\begin_inset space ~
+\end_inset
+
+kb/s, which is beyond the reach of conventional waveform speech coders.
  
 \end_layout
 
 \begin_layout Standard
-In this work, we focus on simpler models, that are can be implemented on
- general-purpose hardware and mobile devices for real-time communication,
- and that work for any speaker using any language.
+One way of reducing the complexity is to use linear prediction as a way
+ taking the burden of spectral envelope modeling away from the neural synthesis
+ network
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lpcnet,juvela2018speaker,wang2019"
+literal "false"
+
+\end_inset
+
+.
+ We introduce WaveRNN and LPCNet in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:WaveRNN_and_LPCNet"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ and then discuss how to quantize the conditioning features in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Features_and_quantization"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ We discuss training considerations in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Training"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, followed with the results in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Evaluation"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ We conclude with ideas for improvement in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Conclusion"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Section
 WaveRNN and LPCNet
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:WaveRNN_and_LPCNet"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -337,7 +456,53 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-The dual_DC layer is defined as 
+Considering that the signal 
+\begin_inset Formula $s_{t-1}$
+\end_inset
+
+, prediction 
+\begin_inset Formula $p_{t}$
+\end_inset
+
+ and excitatation 
+\begin_inset Formula $e_{t-1}$
+\end_inset
+
+ inputs are discrete, we can pre-compute the contribution 
+\begin_inset Formula $\mathbf{v}_{i}^{\left(\cdot,\cdot\right)}$
+\end_inset
+
+ of each possible value to the 
+\begin_inset Formula $\mathrm{GRU_{A}}$
+\end_inset
+
+ gates and state so that only lookups are necessary at run-time.
+ In addition, the contribution 
+\begin_inset Formula $\mathbf{g}^{\left(\cdot\right)}$
+\end_inset
+
+ of the frame rate network to 
+\begin_inset Formula $\mathrm{GRU_{A}}$
+\end_inset
+
+ can be computed only once per frame.
+ 
+\begin_inset Formula 
+\begin{align}
+\mathbf{u}_{t}= & \sigma\left(\mathbf{W}_{u}\mathbf{h}_{t}+\mathbf{v}_{s_{t-1}}^{\left(u,s\right)}+\mathbf{v}_{p_{t-1}}^{\left(u,p\right)}+\mathbf{v}_{e_{t-1}}^{\left(u,e\right)}+\mathbf{g}^{\left(u\right)}\right)\nonumber \\
+\mathbf{r}_{t}= & \sigma\left(\mathbf{W}_{r}\mathbf{h}_{t}+\mathbf{v}_{s_{t-1}}^{\left(r,s\right)}+\mathbf{v}_{p_{t-1}}^{\left(r,p\right)}+\mathbf{v}_{e_{t-1}}^{\left(r,e\right)}+\mathbf{g}^{\left(r\right)}\right)\label{eq:LPCNet}\\
+\widetilde{\mathbf{h}}_{t}= & \tau\left(\mathbf{r}_{t}\circ\left(\mathbf{W}_{h}\mathbf{h}_{t}\right)+\mathbf{v}_{s_{t-1}}^{\left(h,s\right)}+\mathbf{v}_{p_{t-1}}^{\left(h,p\right)}+\mathbf{v}_{e_{t-1}}^{\left(h,e\right)}+\mathbf{g}^{\left(h\right)}\right)\nonumber \\
+\mathbf{h}_{t}= & \mathbf{u}_{t}\circ\mathbf{h}_{t-1}+\left(1-\mathbf{u}_{t}\right)\circ\widetilde{\mathbf{h}}_{t}\nonumber \\
+P\left(e_{t}\right) & =\mathrm{softmax}\left(\mathrm{dual\_fc}\left(\mathrm{GRU_{B}}\left(\mathbf{h}_{t}\right)\right)\right)\ ,\nonumber 
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The dual_DC layer is defined as
 \begin_inset Formula 
 \begin{equation}
 \mathrm{dual\_fc}(\mathbf{x})=\mathbf{a}_{1}\circ\tanh\left(\mathbf{W}_{1}\mathbf{x}\right)+\mathbf{a}_{2}\circ\tanh\left(\mathbf{W}_{2}\mathbf{x}\right)\ ,\label{eq:dual_fc}
@@ -443,6 +608,16 @@ Features and Quantization
 \end_layout
 
 \begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Features_and_quantization"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 LPCNet is designed to operate with 10\SpecialChar nobreakdash
 ms features.
  To achieve a low bitrate, we use 40\SpecialChar nobreakdash
@@ -481,15 +656,124 @@ kb/s (CBR).
 LPC computed from the quantized spectrum
 \end_layout
 
+\begin_layout Subsection
+Pitch
+\end_layout
+
+\begin_layout Standard
+Extracting the correct pitch (without period doubling of halving) is very
+ important for a vocoder since no residual is coded to make up for prediction
+ errors.
+ During development, we have observed that unlike traditional vocoders,
+ the neural vocoder has some ability to compensate for incorrect pitch values,
+ but only up to a point.
+ Moreover, that ability is reduced when the cepstrum is quantized.
+ 
+\end_layout
+
+\begin_layout Standard
+The pitch search operates on the excitation signal.
+ Maximizing the correlation over an entire 40\SpecialChar nobreakdash
+ms packet does not produce
+ good results because the pitch can vary within that time.
+ Instead, we divide each packet in 5\SpecialChar nobreakdash
+ms sub-frames, and find the set of pitch
+ lags 
+\begin_inset Formula $\tau_{i}$
+\end_inset
+
+ that maximize the following expression:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+J=\sum_{i}\left[w_{i}r\left(\tau_{i}\right)+\Theta\left(\tau_{i}-\tau_{i-1}\right)\right]\,,
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $w_{i}$
+\end_inset
+
+ is the ratio of the sub-frame energy over the average energy over the 40\SpecialChar nobreakdash
+ms
+ packet, 
+\begin_inset Formula $\Theta\left(\Delta_{\tau}\right)$
+\end_inset
+
+ is a transition penalty, and 
+\begin_inset Formula $r\left(\tau_{i}\right)$
+\end_inset
+
+ is a modified pitch correlation.
+ 
+\end_layout
+
+\begin_layout Standard
+The optimal path can be computed using dynamic programming with a Viterbi
+ search.
+ Since the entire audio is not available at once, the running values of
+ 
+\begin_inset Formula $J$
+\end_inset
+
+ are updated for every sub-frame and the Viterbi backtrack pass is computed
+ once per 40\SpecialChar nobreakdash
+ms packet, over all 8
+\begin_inset space ~
+\end_inset
+
+sub-frames.
+ While that does not guarantee finding the optimal path, it ensures a consistent
+ pitch over the duration of the packet.
+ 
+\end_layout
+
+\begin_layout Standard
+The allowed pitch values range from 62.5
+\begin_inset space ~
+\end_inset
+
+Hz to 500
+\begin_inset space ~
+\end_inset
+
+Hz.
+ The pitch is encoded on a logarithmic scale using 6
+\begin_inset space ~
+\end_inset
+
+bits, resulting in quantization intervals of 0.57
+\begin_inset space ~
+\end_inset
+
+semitones.
+ 
+\end_layout
+
+\begin_layout Standard
+A linear pitch modulation parameter allows up to 16% variation (2.5
+\begin_inset space ~
+\end_inset
+
+semitones) between the first and last sub-frame.
+ It is encoded with 3 bits representing a 
+\begin_inset Formula $\left[-3,3\right]$
+\end_inset
+
+ range with the two different codes for 0 (constant modulation), one of
+ which also signals that the pitch correlation is less than 0.3 (the modulation
+ is zero when the pitch correlation is too small).
+ 
+\end_layout
+
 \begin_layout Standard
 \begin_inset Float table
 wide false
 sideways false
 status open
-
-\begin_layout Plain Layout
-
-\end_layout
 
 \begin_layout Plain Layout
 \begin_inset Caption Standard
@@ -737,126 +1021,9 @@ status open
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
-\end_layout
-
-\begin_layout Subsection
-Pitch
-\end_layout
-
-\begin_layout Standard
-Extracting the correct pitch (without period doubling of halving) is very
- important for a vocoder since no residual is coded to make up for prediction
- errors.
- During development, we have observed that unlike traditional vocoders,
- the neural vocoder has some ability to compensate for incorrect pitch values,
- but only up to a point.
- Moreover, that ability is reduced when the cepstrum is quantized.
- 
-\end_layout
-
-\begin_layout Standard
-The pitch search operates on the excitation signal.
- Maximizing the correlation over an entire 40\SpecialChar nobreakdash
-ms packet does not produce
- good results because the pitch can vary within that time.
- Instead, we divide each packet in 5\SpecialChar nobreakdash
-ms sub-frames, and find the set of pitch
- lags 
-\begin_inset Formula $\tau_{i}$
-\end_inset
-
- that maximize the following expression:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-J=\sum_{i}\left[w_{i}r\left(\tau_{i}\right)+\Theta\left(\tau_{i}-\tau_{i-1}\right)\right]\,,
-\]
-
-\end_inset
-
-where 
-\begin_inset Formula $w_{i}$
-\end_inset
-
- is the ratio of the sub-frame energy over the average energy over the 40\SpecialChar nobreakdash
-ms
- packet, 
-\begin_inset Formula $\Theta\left(\Delta_{\tau}\right)$
-\end_inset
-
- is a transition penalty, and 
-\begin_inset Formula $r\left(\tau_{i}\right)$
-\end_inset
-
- is a modified pitch correlation.
- 
-\end_layout
-
-\begin_layout Standard
-The optimal path can be computed using dynamic programming with a Viterbi
- search.
- Since the entire audio is not available at once, the running values of
- 
-\begin_inset Formula $J$
-\end_inset
-
- are updated for every sub-frame and the Viterbi backtrack pass is computed
- once per 40\SpecialChar nobreakdash
-ms packet, over all 8
-\begin_inset space ~
-\end_inset
-
-sub-frames.
- While that does not guarantee finding the optimal path, it ensures a consistent
- pitch over the duration of the packet.
- 
-\end_layout
-
-\begin_layout Standard
-The allowed pitch values range from 62.5
-\begin_inset space ~
-\end_inset
-
-Hz to 500
-\begin_inset space ~
-\end_inset
-
-Hz.
- The pitch is encoded on a logarithmic scale using 6
-\begin_inset space ~
-\end_inset
-
-bits, resulting in quantization intervals of 0.57
-\begin_inset space ~
-\end_inset
-
-semitones.
- 
-\end_layout
-
-\begin_layout Standard
-A linear pitch modulation parameter allows up to 16% variation (2.5
-\begin_inset space ~
-\end_inset
-
-semitones) between the first and last sub-frame.
- It is encoded with 3 bits representing a 
-\begin_inset Formula $\left[-3,3\right]$
-\end_inset
-
- range with the two different codes for 0 (constant modulation), one of
- which also signals that the pitch correlation is less than 0.3 (the modulation
- is zero when the pitch correlation is too small).
- 
 \end_layout
 
 \begin_layout Subsection
@@ -1146,6 +1313,16 @@ Training
 \end_layout
 
 \begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Training"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 Improved compared to the original LPCNet
 \begin_inset space ~
 \end_inset
@@ -1324,7 +1501,18 @@ Evaluation
 \end_layout
 
 \begin_layout Standard
-Code on Github 
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Evaluation"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The source code for this work is available under an open-source license
+ at 
 \begin_inset ERT
 status open
 
@@ -1337,7 +1525,9 @@ url{https://github.com/mozilla/LPCNet/}
 
 \end_inset
 
-, branch, commit id 0123456789abcdef
+.
+ The evaluation in this section is based on commit 0123456789abcdef, in
+ branch foo
 \end_layout
 
 \begin_layout Subsection
@@ -1748,12 +1938,88 @@ Since the LPCNet model was trained on multiple languages, it is expected
  
 \end_layout
 
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{4cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Subjective quality (MUSHRA) results.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Subjective-quality-MUSHRA"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Conclusions
 \end_layout
 
 \begin_layout Standard
-This conclusively concludes the conclusion
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Conclusion"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We have demonstrated...
+\end_layout
+
+\begin_layout Standard
+Considering that LPCNet is able to achieve higher quality than a waveform
+ codec like Opus operating at low bitrate, we believe it should be possible
+ to directly use the encoded LSPs to synthesize a higher quality output
+ than the standard provides.
+ In addition, using the encoded excitation as an extra input to LPCNet may
+ help further improve the quality, turning LPCNet into a form of neural
+ post-filter that can significantly improve the quality of any existing
+ low-bitrate waveform codec.
+ 
 \end_layout
 
 \begin_layout Section
