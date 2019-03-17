@@ -1535,7 +1535,7 @@ Complexity and Implementation
 \end_layout
 
 \begin_layout Standard
-The number of weights in the sample rate network is given by
+The number of weights in the sample rate network is approximately
 \begin_inset Formula 
 \[
 W=3dN_{A}^{2}+3N_{B}\left(N_{A}+N_{B}\right)+2N_{B}Q\,,
@@ -1873,14 +1873,14 @@ literal "false"
 
 \end_inset
 
-.
- 
-\end_layout
+ to evaluate the quality of the proposed 1.6
+\begin_inset space ~
+\end_inset
 
-\begin_layout Standard
-As an upper bound on the quality achievable with LPCNet at the target complexity
- (higher quality is achievable with a larger model), we include LPCNet operating
- on unquantized features.
+kb/s neural vocoder.
+ As an upper bound on the quality achievable with LPCNet at the target complexit
+y (higher quality is achievable with a larger model), we include LPCNet
+ operating on unquantized features.
  We also compare with Opus
 \begin_inset space ~
 \end_inset
@@ -1928,6 +1928,24 @@ literal "false"
 \end_inset
 
 kb/s wideband vocoder (wideband quality 0).
+\end_layout
+
+\begin_layout Standard
+The results presented in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Subjective-quality-MUSHRA"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ show that...
 \end_layout
 
 \begin_layout Standard
@@ -2007,7 +2025,15 @@ name "sec:Conclusion"
 \end_layout
 
 \begin_layout Standard
-We have demonstrated...
+We have demonstrated a 1.6
+\begin_inset space ~
+\end_inset
+
+kb/s neural vocoder that can be used for real-time communication on a mobile
+ device.
+ The quality obtained exceeds what is achievable in existing low-bitrate
+ vocoders.
+ 
 \end_layout
 
 \begin_layout Standard
