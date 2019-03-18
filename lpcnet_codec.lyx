@@ -1076,7 +1076,7 @@ Cepstrum
 \end_layout
 
 \begin_layout Standard
-The analysis operates on 20\SpecialChar nobreakdash
+The spectral analysis operates on 20\SpecialChar nobreakdash
 ms windows with 50% overlap.
  The cepstrum is computed from 18
 \begin_inset space ~
@@ -1116,8 +1116,8 @@ literal "false"
 
 \end_inset
 
-, and that limits the error propagation in case of packet loss to a worst
- case of 30
+, limiting the error propagation in case of packet loss to a worst case
+ of 30
 \begin_inset space ~
 \end_inset
 
@@ -1162,7 +1162,7 @@ stage codebook with 10
 \end_inset
 
 bits for each stage.
- An M-best (survivor) search help reduce the quantization error, but is
+ An M-best (survivor) search helps reduce the quantization error, but is
  not strictly necessary.
  The first component (C0) of 
 \begin_inset Formula $\mathbf{c}_{4k+3}$
@@ -1182,7 +1182,7 @@ dB resolution).
 \begin_inset Formula $\mathbf{c}_{4k-1}$
 \end_inset
 
- (independently coded in the previous frame) and 
+ (independently coded in the previous packet) and 
 \begin_inset Formula $\mathbf{c}_{4k+3}$
 \end_inset
 
