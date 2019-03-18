@@ -439,7 +439,7 @@ law.
 \end_inset
 
 ) and the inverse de-emphasis filter is applied to the output.
- This shapes the noise in a way that it is not easily noticeable.
+ This shapes the noise and makes it less perceptible.
  In addition to using the previously generated speech sample 
 \begin_inset Formula $s_{t-1}$
 \end_inset
@@ -525,7 +525,7 @@ P\left(e_{t}\right) & =\mathrm{softmax}\left(\mathrm{dual\_fc}\left(\mathrm{GRU_
 \end_layout
 
 \begin_layout Standard
-The dual_fc layer is defined as
+The dual fully-connected (dual_fc) layer is defined as
 \begin_inset Formula 
 \begin{equation}
 \mathrm{dual\_fc}(\mathbf{x})=\mathbf{a}_{1}\circ\tau\left(\mathbf{W}_{1}\mathbf{x}\right)+\mathbf{a}_{2}\circ\tau\left(\mathbf{W}_{2}\mathbf{x}\right)\ ,\label{eq:dual_fc}
@@ -547,9 +547,12 @@ Throughout this paper, biases are omitted for clarity.
 \end_inset
 
 .
- As a way of reducing complexity, the recurrent matrics used by the GRU
- are sparse with non-zero blocks of size 16x1 to ensure that vectorization
- is still possible and efficient.
+ As a way of reducing complexity, the 
+\begin_inset Formula $\mathrm{GRU_{A}}$
+\end_inset
+
+ uses sparse recurrent matrics with non-zero blocks of size 16x1 to ensure
+ efficient vectorization.
 \end_layout
 
 \begin_layout Standard
@@ -1626,8 +1629,12 @@ literal "false"
 \begin_inset Formula $d=10\%$
 \end_inset
 
- (122 dense equivalent units) to provide a good compromise between quality
- and complexity.
+ (122
+\begin_inset space ~
+\end_inset
+
+dense equivalent units) to provide a good compromise between quality and
+ complexity.
  This results in 
 \begin_inset Formula $W=71600\,\mathrm{weights}.$
 \end_inset
@@ -1756,8 +1763,11 @@ The total complexity of the encoder is around 30
 \begin_inset space ~
 \end_inset
 
-MFLOPS, mostly due to the 5-best VQ search (14 MFLOPS) and the undecimated
- 16
+MFLOPS, mostly due to the 5-best VQ search (14
+\begin_inset space ~
+\end_inset
+
+MFLOPS) and the undecimated 16
 \begin_inset space ~
 \end_inset
 
