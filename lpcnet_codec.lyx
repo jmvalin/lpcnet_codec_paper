@@ -274,9 +274,23 @@ kb/s, which is beyond the reach of conventional waveform speech coders.
 \end_layout
 
 \begin_layout Standard
-One way of reducing the complexity is to use linear prediction as a way
- taking the burden of spectral envelope modeling away from the neural synthesis
- network
+WaveRNN
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kalchbrenner2018efficient"
+literal "false"
+
+\end_inset
+
+ is a more computationally efficient alternative to WaveNet that uses a
+ recurrent neural network (RNN) along with sparse matrices.
+ Another way of reducing the complexity is to use linear prediction as a
+ way of taking the burden of spectral envelope modeling away from the neural
+ synthesis network
 \begin_inset space ~
 \end_inset
 
@@ -289,7 +303,19 @@ literal "false"
 \end_inset
 
 .
- We introduce WaveRNN and LPCNet in Section
+ In previous work, we proposed LPCNet
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lpcnet"
+literal "false"
+
+\end_inset
+
+ (summarized in Section
 \begin_inset space ~
 \end_inset
 
@@ -303,7 +329,10 @@ noprefix "false"
 
 \end_inset
 
- and then discuss how to quantize the conditioning features in Section
+), which augments WaveRNN with linear prediction to achieve low complexity
+ speaker-independent speech synthesis.
+ We now address how to quantize LPCNet features to achieve low-bitrate speech
+ coding (Section
 \begin_inset space ~
 \end_inset
 
@@ -317,8 +346,7 @@ noprefix "false"
 
 \end_inset
 
-.
- We discuss training considerations in Section
+) and then discuss training considerations in Section
 \begin_inset space ~
 \end_inset
 
@@ -332,7 +360,8 @@ noprefix "false"
 
 \end_inset
 
-, followed with the results in Section
+.
+ We provide results in Section
 \begin_inset space ~
 \end_inset
 
@@ -346,8 +375,7 @@ noprefix "false"
 
 \end_inset
 
-.
- We conclude with ideas for improvement in Section
+ and conclude with ideas for improvement in Section
 \begin_inset space ~
 \end_inset
 
@@ -365,7 +393,7 @@ noprefix "false"
 \end_layout
 
 \begin_layout Section
-WaveRNN and LPCNet
+LPCNet Overview
 \end_layout
 
 \begin_layout Standard
@@ -376,39 +404,6 @@ name "sec:WaveRNN_and_LPCNet"
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-WaveRNN was proposed in
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset CommandInset citation
-LatexCommand cite
-key "kalchbrenner2018efficient"
-literal "false"
-
-\end_inset
-
- as a more computationally efficient alternative to WaveNet.
- Its use of a recurrent neural network (RNN) along with sparse matrices
- makes it possible to achieve real-time synthesis without a GPU.
- More recently, we proposed the LPCNet
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset CommandInset citation
-LatexCommand cite
-key "lpcnet"
-literal "false"
-
-\end_inset
-
- model, which improves on the efficiency of WaveRNN by augmenting the RNN
- with linear prediction.
- 
 \end_layout
 
 \begin_layout Standard
