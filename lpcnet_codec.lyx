@@ -142,7 +142,9 @@ maketitle
 \end_layout
 
 \begin_layout Abstract
-This is all very abstract
+We present a low-bitrate codec based on the LPCNet model.
+ The use of linear prediction and sparse matrices make it possible to achieve
+ real-time operation on general-purpose hardware.
 \end_layout
 
 \begin_layout Abstract
@@ -153,7 +155,7 @@ status open
 
 
 \backslash
-vspace{4cm}
+vspace{2cm}
 \end_layout
 
 \end_inset
@@ -661,14 +663,17 @@ name "sec:Features_and_quantization"
 
 \begin_layout Standard
 LPCNet is designed to operate with 10\SpecialChar nobreakdash
-ms features.
- Each 10-ms frame includes 18
+ms frames containing 20
+\begin_inset space ~
+\end_inset
+
+features.
+ Each frame includes 18
 \begin_inset space ~
 \end_inset
 
 cepstral coefficients, a pitch period (between 16 and 256 samples) and a
  pitch correlation (between 0 and 1).
- The prediction coefficients are computed using the quantized cepstrum.
  To achieve a low bitrate, we use 40\SpecialChar nobreakdash
 ms packets, each representing 4
 \begin_inset space ~
@@ -698,7 +703,7 @@ noprefix "false"
 \end_inset
 
 kb/s (CBR).
- 
+ The prediction coefficients are computed using the quantized cepstrum.
 \end_layout
 
 \begin_layout Subsection
