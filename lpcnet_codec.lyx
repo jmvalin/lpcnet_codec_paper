@@ -1422,13 +1422,17 @@ noprefix "false"
 \end_layout
 
 \begin_layout Standard
-As a way of making the model more robust to ..., we use data augmentation on
- the training database.
+As a way of making the model more robust to input variations, we use data
+ augmentation on the training database.
  The speech level is varied over a 40
 \begin_inset space ~
 \end_inset
 
-dB range and the frequency response
+dB range and the frequency response is varied according to eq.
+\begin_inset space ~
+\end_inset
+
+(7) in
 \begin_inset space ~
 \end_inset
 
@@ -1441,6 +1445,7 @@ literal "false"
 \end_inset
 
 .
+ 
 \end_layout
 
 \begin_layout Standard
@@ -1560,8 +1565,7 @@ name "sec:Evaluation"
 \end_layout
 
 \begin_layout Standard
-The source code for this work is available under an open-source license
- at 
+The source code for this work is available under a BSD license at 
 \begin_inset ERT
 status open
 
@@ -1575,8 +1579,7 @@ url{https://github.com/mozilla/LPCNet/}
 \end_inset
 
 .
- The evaluation in this section is based on commit 0123456789abcdef, in
- branch foo
+ The evaluation in this section is based on commit 0123456789abcdef.
 \end_layout
 
 \begin_layout Subsection
@@ -1675,7 +1678,7 @@ exp=15, tanh=19, sig=18, softmax=21
 \end_layout
 
 \begin_layout Standard
-Our C implementation (using AVX2/FMA) requires 20% of a 2.4
+A C implementation of the decoder (using AVX2/FMA) requires 20% of a 2.4
 \begin_inset space ~
 \end_inset
 
@@ -1684,7 +1687,7 @@ GHz Intel Broadwell core for real-time decoding.
  bandwidth required for the matrix-vector multiplications.
  On ARM
 \begin_inset Foot
-status open
+status collapsed
 
 \begin_layout Plain Layout
 Our ARM implementation has Neon optimizations for the products but not for
@@ -1706,7 +1709,25 @@ GHz Snapdragon 845 (Google Pixel
 \end_layout
 
 \begin_layout Standard
-Even though the 
+As a comparison, we estimate the complexity of the SampleRNN neural codec
+ described in
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "klejsa2018high"
+literal "false"
+
+\end_inset
+
+ to be around 90
+\begin_inset space ~
+\end_inset
+
+GFLOPS (mostly from the two hidden-layer MLP with 1024 units per layer).
+ 
 \end_layout
 
 \begin_layout Standard
@@ -1734,7 +1755,8 @@ literal "false"
 
 \end_inset
 
- and to
+.
+ According to the 
 \begin_inset space ~
 \end_inset
 
