@@ -1727,7 +1727,7 @@ literal "false"
 \begin_inset space ~
 \end_inset
 
-GFLOPS (mostly from the two-hidden-layer MLPs with 1024 units per layer).
+GFLOPS – mostly from the two-hidden-layer MLPs with 1024 units per layer.
  The complexity of the WaveNet-based codec in
 \begin_inset space ~
 \end_inset
@@ -1740,16 +1740,21 @@ literal "false"
 
 \end_inset
 
- is not explicitly given, but assuming 128
+ significantly exceeds 100
 \begin_inset space ~
 \end_inset
 
-channels (a common WaveNet configuration), its complexity would also be
- around 100
-\begin_inset space ~
+GFLOPS
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+based on discussion with the authors
+\end_layout
+
 \end_inset
 
-GFLOPS.
+.
  
 \end_layout
 
