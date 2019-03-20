@@ -1679,25 +1679,15 @@ exp=15, tanh=19, sig=18, softmax=21
 \end_layout
 
 \begin_layout Standard
-A C implementation of the decoder (using AVX2/FMA) requires 20% of a 2.4
+A C implementation of the decoder (with AVX2/FMA intrinsics) requires 20%
+ of a 2.4
 \begin_inset space ~
 \end_inset
 
 GHz Intel Broadwell core for real-time decoding.
  According to our analysis, the main performance bottleneck is the L2 cache
  bandwidth required for the matrix-vector multiplications.
- On ARM
-\begin_inset Foot
-status collapsed
-
-\begin_layout Plain Layout
-Our ARM implementation has Neon optimizations for the products but not for
- the activation functions.
-\end_layout
-
-\end_inset
-
-, real-time decoding on a 2.5
+ On ARMv8 (with Neon intrinsics), real-time decoding on a 2.5
 \begin_inset space ~
 \end_inset
 
@@ -1705,7 +1695,7 @@ GHz Snapdragon 845 (Google Pixel
 \begin_inset space ~
 \end_inset
 
-3 phone) requires X% of one core.
+3 phone) requires 68% of one core.
  
 \end_layout
 
