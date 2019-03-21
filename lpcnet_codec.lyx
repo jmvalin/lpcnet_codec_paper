@@ -142,9 +142,9 @@ maketitle
 \end_layout
 
 \begin_layout Abstract
-We present a low-bitrate codec based on the LPCNet model.
- The use of linear prediction and sparse matrices makes it possible to achieve
- real-time operation on general-purpose hardware.
+We present a low-bitrate neural vocoder based on the LPCNet model.
+ The use of linear prediction and sparse recurrent networks makes it possible
+ to achieve real-time operation on general-purpose hardware.
 \end_layout
 
 \begin_layout Abstract
