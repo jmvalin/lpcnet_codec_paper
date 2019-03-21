@@ -1134,6 +1134,83 @@ Cepstrum
 \end_layout
 
 \begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering{
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename quantization.pdf
+	width 90col%
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Prediction and quantization of the cepstrum for packet
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $k$
+\end_inset
+
+.
+ Vectors in green are quantized independently, vectors in blue are quantized
+ with prediction, and vectors in red use prediction with no residual quantizatio
+n.
+ Prediction is shown by the arrows.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Prediction-and-quantization"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 The spectral analysis operates on 20\SpecialChar nobreakdash
 ms windows with 50% overlap.
  The cepstrum is computed from 18
@@ -1328,87 +1405,6 @@ possible combinations.
 \end_inset
 
 bits.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-centering{
-\end_layout
-
-\end_inset
-
-
-\begin_inset Graphics
-	filename quantization.pdf
-	width 90col%
-
-\end_inset
-
-
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Prediction and quantization of the cepstrum for packet
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset Formula $k$
-\end_inset
-
-.
- Vectors in green are quantized independently, vectors in blue are quantized
- with prediction, and vectors in red use prediction with no residual quantizatio
-n.
- Prediction is shown by the arrows.
- 
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Prediction-and-quantization"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Section
@@ -2300,6 +2296,12 @@ kb/s neural vocoder that can be used for real-time communication on a mobile
  device.
  The quality obtained exceeds what is achievable in existing low-bitrate
  vocoders.
+ 
+\end_layout
+
+\begin_layout Standard
+Case for 2 to 4 kb/s.
+ Improve robustness.
  
 \end_layout
 
