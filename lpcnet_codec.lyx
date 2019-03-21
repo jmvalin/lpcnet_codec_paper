@@ -145,22 +145,7 @@ maketitle
 We present a low-bitrate neural vocoder based on the LPCNet model.
  The use of linear prediction and sparse recurrent networks makes it possible
  to achieve real-time operation on general-purpose hardware.
-\end_layout
-
-\begin_layout Abstract
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-vspace{3cm}
-\end_layout
-
-\end_inset
-
-
+ Add more stuff here...
 \end_layout
 
 \begin_layout Standard
@@ -759,6 +744,53 @@ kb/s (CBR).
  The prediction coefficients are computed using the quantized cepstrum.
 \end_layout
 
+\begin_layout Standard
+In addition to the packet size of 40
+\begin_inset space ~
+\end_inset
+
+ms, LPCNet has a synthesis look-ahead of 25
+\begin_inset space ~
+\end_inset
+
+ms, which includes 20
+\begin_inset space ~
+\end_inset
+
+ms for the two 1x3 convolutional layers in the frame rate network and 5
+\begin_inset space ~
+\end_inset
+
+ms for the overlap in the analysis window (see Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:cepstrum"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+ The total algorithmic delay of the codec is thus 65
+\begin_inset space ~
+\end_inset
+
+ms.
+ Because the complexity of the frame-level processing is negligible compared
+ to that of the sample rate network, no significant delay is added by the
+ computation time (unlike traditional codecs where up to one frame delay
+ can be added if the codec takes 100%
+\begin_inset space ~
+\end_inset
+
+CPU).
+\end_layout
+
 \begin_layout Subsection
 Pitch
 \end_layout
@@ -1131,6 +1163,16 @@ status open
 
 \begin_layout Subsection
 Cepstrum
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:cepstrum"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1775,22 +1817,7 @@ GHz Snapdragon
 \begin_inset space ~
 \end_inset
 
-S10), real-time decoding requires only 31% of one core
-\begin_inset Foot
-status collapsed
-
-\begin_layout Plain Layout
-Both the Snapdragon
-\begin_inset space ~
-\end_inset
-
-845 and 855 are big.LITTLE architectures and we were unable to control or
- identify which core was being used.
-\end_layout
-
-\end_inset
-
- (3.2x
+S10), real-time decoding requires only 31% of one core (3.2x
 \begin_inset space ~
 \end_inset
 
@@ -2252,7 +2279,13 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Subjective quality (MUSHRA) results for NTT samples.
+Subjective quality (MUSHRA) results for both listening tests.
+ Set
+\begin_inset space ~
+\end_inset
+
+1 is taken from the NTT database, while Set 2 consists of Opus testvector
+ samples.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:Subjective-quality-MUSHRA"
@@ -2277,7 +2310,21 @@ name "fig:Subjective-quality-MUSHRA"
 \end_layout
 
 \begin_layout Standard
-Link to demo/samples
+A subset of the samples used in the listening test is available at 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+url{https://people.xiph.org/~jm/demo/lpcnet_codec/}
+\end_layout
+
+\end_inset
+
+.
+ 
 \end_layout
 
 \begin_layout Section
@@ -2304,8 +2351,8 @@ kb/s neural vocoder based on the LPCNet model that can be used for real-time
  The quality obtained exceeds what is achievable with existing low-bitrate
  vocoders such as MELP.
  Although other work has demonstrated similar or higher speech quality at
- similar bitrates, we believe this is the first neural vocoder that can
- be deployed on general-purpose hardware and mobile devices.
+ similar bitrates, we believe this to be the first neural vocoder operating
+ in real-time on general-purpose hardware and mobile devices.
  We have so far focused on clean, non-reverberant speech.
  More work is needed for testing and improving the robustness to noise and
  reverberation.
