@@ -475,7 +475,7 @@ literal "false"
 \begin_inset Formula $p_{t}$
 \end_inset
 
- and excitatation 
+ and excitation 
 \begin_inset Formula $e_{t-1}$
 \end_inset
 
@@ -588,7 +588,7 @@ literal "false"
 \begin_inset Formula $\mathrm{GRU_{A}}$
 \end_inset
 
- uses sparse recurrent matrics with non-zero blocks of size 16x1 to ensure
+ uses sparse recurrent matrices with non-zero blocks of size 16x1 to ensure
  efficient vectorization.
  Because the hidden state update is more important then the reset and update
  gates, we keep 20% of the weights in 
@@ -1361,12 +1361,12 @@ Because there is insufficient bitrate to adequately code
 \begin_inset Formula $\mathbf{c}_{4k+2}$
 \end_inset
 
-, we only use a prediction from their neighbours.
+, we only use a prediction from their neighbors.
  Vector 
 \begin_inset Formula $\mathbf{c}_{4k}$
 \end_inset
 
- is predicted from its neighbours 
+ is predicted from its neighbors 
 \begin_inset Formula $\mathbf{c}_{4k-1}$
 \end_inset
 
@@ -1422,7 +1422,7 @@ name "sec:Training"
 \end_layout
 
 \begin_layout Standard
-When decoding speech, the sample rate network operates on the synthized
+When decoding speech, the sample rate network operates on the synthesized
  speech rather than on the 
 \emph on
 ground-truth
