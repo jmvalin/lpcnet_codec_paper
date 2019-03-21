@@ -20,7 +20,7 @@ S2 = [0.7177322786293536, 1.1948726816966997, 1.27490737255248, 1.46837578086159
 
 
 x = np.arange(6)
-labels = ['Ref', 'LPCNet\n(unquant)', 'Opus\n9 kb/s', 'LPCNet\n1.6 kb/s', 'MELP\n2.4 kb/s', 'Speex\n4 kb/s']
+labels = ['Ref', 'LPCNet\nunquant', 'Opus\n9 kb/s', 'LPCNet\n1.6 kb/s', 'MELP\n2.4 kb/s', 'Speex\n4 kb/s']
 line1 = plt.errorbar(x-0.12, M, S, capsize=2, alpha=alpha, color='#0000d0', linestyle=' ', marker='_', markersize=3.2, label='Set 1')
 line2 = plt.errorbar(x+0.12, M2, S2, capsize=2, alpha=alpha, color='#c00000', linestyle=' ', marker='.', markersize=3.2, label='Set 2')
 plt.xticks(x, labels)
