@@ -722,8 +722,11 @@ features.
 \begin_inset space ~
 \end_inset
 
-cepstral coefficients, a pitch period (between 16 and 256 samples) and a
- pitch correlation (between 0 and 1).
+cepstral coefficients, a pitch period (between 16 and 256
+\begin_inset space ~
+\end_inset
+
+samples) and a pitch correlation (between 0 and 1).
  To achieve a low bitrate, we use 40\SpecialChar nobreakdash
 ms packets, each representing 4
 \begin_inset space ~
