@@ -155,7 +155,7 @@ status open
 
 
 \backslash
-vspace{2cm}
+vspace{3cm}
 \end_layout
 
 \end_inset
@@ -467,16 +467,7 @@ literal "false"
 \end_inset
 
  layer.
- To reduce the complexity, the recurrent matrices in the main GRU (
-\begin_inset Formula $\mathrm{GRU_{A}}$
-\end_inset
-
-) are sparse.
- 
-\end_layout
-
-\begin_layout Standard
-Considering that the signal 
+ Considering that the signal 
 \begin_inset Formula $s_{t-1}$
 \end_inset
 
@@ -543,13 +534,40 @@ Throughout this paper, biases are omitted for clarity.
 \begin_inset Formula $P\left(s_{t}\right)$
 \end_inset
 
+ after lowering the temperature of voiced frames as described in eq.
+\begin_inset space ~
+\end_inset
+
+(7) of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lpcnet"
+literal "false"
+
+\end_inset
+
 .
- As a way of reducing complexity, the 
+ As a way of reducing the complexity, the 
 \begin_inset Formula $\mathrm{GRU_{A}}$
 \end_inset
 
  uses sparse recurrent matrics with non-zero blocks of size 16x1 to ensure
  efficient vectorization.
+ Because the hidden state update is more important then the reset and update
+ gates, we keep 20% of the weights in 
+\begin_inset Formula $\mathbf{W}_{h}$
+\end_inset
+
+, but only 5% of those in 
+\begin_inset Formula $\mathbf{W}_{r}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{W}_{u}$
+\end_inset
+
+, for an average of 10%.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -2001,7 +2019,7 @@ y (higher quality is achievable with a larger model), we include LPCNet
 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "rfc6716"
+key "vos2013voice"
 literal "false"
 
 \end_inset
