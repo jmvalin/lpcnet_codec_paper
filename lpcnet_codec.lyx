@@ -509,11 +509,32 @@ P\left(e_{t}\right) & =\mathrm{softmax}\left(\mathrm{dual\_fc}\left(\mathrm{GRU_
 
 \end_inset
 
+where the 
+\begin_inset Formula $\mathbf{W}$
+\end_inset
 
-\end_layout
+ matrices are the 
+\begin_inset Formula $\mathrm{GRU_{A}}$
+\end_inset
 
-\begin_layout Standard
-The dual fully-connected (dual_fc) layer is defined as
+ weights, 
+\begin_inset Formula $\sigma\left(x\right)$
+\end_inset
+
+ is the sigmoid function, 
+\begin_inset Formula $\tau\left(x\right)$
+\end_inset
+
+ is the hyperbolic tangent, 
+\begin_inset Formula $\circ$
+\end_inset
+
+ denotes an element-wise vector multiply, and 
+\begin_inset Formula $\mathrm{GRU_{A}}\left(\cdot\right)$
+\end_inset
+
+ is a regular (non-sparse) GRU.
+ The dual fully-connected (dual_fc) layer is defined as
 \begin_inset Formula 
 \begin{equation}
 \mathrm{dual\_fc}(\mathbf{x})=\mathbf{a}_{1}\circ\tau\left(\mathbf{W}_{1}\mathbf{x}\right)+\mathbf{a}_{2}\circ\tau\left(\mathbf{W}_{2}\mathbf{x}\right)\ ,\label{eq:dual_fc}
@@ -521,7 +542,23 @@ The dual fully-connected (dual_fc) layer is defined as
 
 \end_inset
 
+where 
+\begin_inset Formula $\mathbf{W}_{1}$
+\end_inset
 
+ and 
+\begin_inset Formula $\mathbf{W}_{2}$
+\end_inset
+
+ are weight matrices and 
+\begin_inset Formula $\mathbf{a}_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{a}_{2}$
+\end_inset
+
+ are scaling vectors.
 \end_layout
 
 \begin_layout Standard
@@ -1565,7 +1602,8 @@ Training is first performed with unquantized features.
  We have observed that better results are obtained when only the frame rate
  network is adapted, with the sample rate network weights left unchanged.
  In addition to the slightly better quality, this has the advantage of faster
- training for new quantizers and also smaller 
+ training for new quantizers and also smaller storage if different quantized
+ models are needed.
 \end_layout
 
 \begin_layout Section
