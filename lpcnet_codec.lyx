@@ -99,25 +99,25 @@ title{A Real-Time Wideband Neural Vocoder at 1.6 kb/s Using LPCNet}
 
 
 \backslash
-name{Author Name$^1$, Co-author Name$^2$}
+name{Jean-Marc Valin$^1$, Jan Skoglund$^2$}
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-address{   $^1$Author Affiliation
+address{   $^1$Mozilla, Mountain View, CA, USA
 \backslash
 
 \backslash
-   $^2$Co-author Affiliation}
+   $^2$Google LLC, San Francisco, CA, USA}
 \end_layout
 
 \begin_layout Plain Layout
 
 
 \backslash
-email{author@university.edu, coauthor@company.com} 
+email{jmvalin@jmvalin.ca, jks@google.com}
 \end_layout
 
 \end_inset
