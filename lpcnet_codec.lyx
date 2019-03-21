@@ -2132,7 +2132,7 @@ literal "false"
 
 , mismatches between the training and testing database can cause a significant
  difference in the output quality.
- To measure that impact, we test the same model on 8
+ We measure that impact in a second test on the same model, with 8
 \begin_inset space ~
 \end_inset
 
@@ -2163,7 +2163,11 @@ noprefix "false"
 
 \end_inset
 
- show that...
+ show that 1.6
+\begin_inset space ~
+\end_inset
+
+kb/s LPCNet clearly outperforms the MELP vocoder...
 \end_layout
 
 \begin_layout Standard
@@ -2191,7 +2195,25 @@ status open
 
 
 \backslash
-vspace{4cm}
+centering{
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename mushra1.pdf
+	width 100col%
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
 \end_layout
 
 \end_inset
@@ -2219,52 +2241,6 @@ name "fig:Subjective-quality-MUSHRA"
 \end_layout
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-vspace{4cm}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Subjective quality (MUSHRA) results for testvector samples.
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Subjective-quality-testvectors"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
 
 \end_layout
 
