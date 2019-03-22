@@ -445,11 +445,11 @@ ms frame, and a sample rate network that computes sample
 \begin_inset Formula $e_{t-1}$
 \end_inset
 
- (
+, where 
 \begin_inset Formula $e_{t}=s_{t}-p_{t}$
 \end_inset
 
-).
+.
  
 \end_layout
 
@@ -844,9 +844,12 @@ where
 \begin_inset Formula $w_{i}$
 \end_inset
 
- is the ratio of the sub-frame energy over the average energy over the 40\SpecialChar nobreakdash
-ms
- packet, 
+ is the ratio of the sub-frame 
+\begin_inset Formula $i$
+\end_inset
+
+ energy over the average energy of the 40\SpecialChar nobreakdash
+ms packet, 
 \begin_inset Formula $\Theta\left(\Delta_{\tau}\right)$
 \end_inset
 
@@ -859,8 +862,8 @@ ms
 \end_layout
 
 \begin_layout Standard
-The optimal path can be computed using dynamic programming with a Viterbi
- search.
+The optimal path can be computed efficiently using dynamic programming with
+ a Viterbi search.
  Since the entire audio is not available at once, the running values of
  
 \begin_inset Formula $J$
@@ -879,16 +882,17 @@ sub-frames.
 \end_layout
 
 \begin_layout Standard
-The allowed pitch values range from 62.5
+The pitch is allowed to vary between 62.5
 \begin_inset space ~
 \end_inset
 
-Hz to 500
+Hz and 500
 \begin_inset space ~
 \end_inset
 
 Hz.
- The pitch is encoded on a logarithmic scale using 6
+ The average pitch over the packet is encoded on a logarithmic scale using
+ 6
 \begin_inset space ~
 \end_inset
 
@@ -910,10 +914,19 @@ semitones) between the first and last sub-frame.
 \begin_inset Formula $\left[-3,3\right]$
 \end_inset
 
- range with the two different codes for 0 (constant modulation), one of
- which also signals that the pitch correlation is less than 0.3 (the modulation
- is zero when the pitch correlation is too small).
- 
+ range with two different codes for 0 (constant modulation), one of which
+ signaling that the pitch correlation is less than 0.3 (the modulation is
+ zero when the pitch correlation is too small).
+ Two extra bits refine the value of the pitch correlation within the remainng
+ range (either 
+\begin_inset Formula $\left[0,\,0.3\right]$
+\end_inset
+
+ or 
+\begin_inset Formula $\left[0.3,\,1\right]$
+\end_inset
+
+).
 \end_layout
 
 \begin_layout Standard
@@ -1265,7 +1278,7 @@ name "fig:Prediction-and-quantization"
 \end_layout
 
 \begin_layout Standard
-The spectral analysis operates on 20\SpecialChar nobreakdash
+The spectral feature analysis operates on 20\SpecialChar nobreakdash
 ms windows with 50% overlap.
  The cepstrum is computed from 18
 \begin_inset space ~
