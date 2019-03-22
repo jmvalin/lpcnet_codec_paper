@@ -142,10 +142,15 @@ maketitle
 \end_layout
 
 \begin_layout Abstract
-We present a low-bitrate neural vocoder based on the LPCNet model.
+Neural speech synthesis algorithms are a promising new approach for coding
+ speech at very low bitrate.
+ They have so far demonstrated quality that far exceeds traditional vocoders,
+ at the cost of very high complexity.
+ In this work, we present a low-bitrate neural vocoder based on the LPCNet
+ model.
  The use of linear prediction and sparse recurrent networks makes it possible
  to achieve real-time operation on general-purpose hardware.
- Add more stuff here...
+ We demonstrate that..
 \end_layout
 
 \begin_layout Standard
@@ -1632,7 +1637,7 @@ Noise injection during the training procedure, with
 
 -law to linear.
  The prediction filter filter is given by 
-\begin_inset Formula $P\left(z\right)=\sum_{k=1}^{M}a_{k}z^{-k}$
+\begin_inset Formula $P\left(z\right)=\sum_{i=1}^{M}a_{i}z^{-k}$
 \end_inset
 
 .
@@ -1704,7 +1709,7 @@ url{https://github.com/mozilla/LPCNet/}
 .
  The evaluation in this section is based on commit 
 \family typewriter
-4d28f2a
+343e35f
 \family default
 .
 \end_layout
