@@ -1279,12 +1279,14 @@ name "fig:Prediction-and-quantization"
 
 \begin_layout Standard
 The spectral feature analysis operates on 20\SpecialChar nobreakdash
-ms windows with 50% overlap.
+ms windows with a 10\SpecialChar nobreakdash
+ms frame
+ offset (50% overlap).
  The cepstrum is computed from 18
 \begin_inset space ~
 \end_inset
 
-Bark-spaced bands following the layout in
+Bark-spaced bands following the same layout as
 \begin_inset space ~
 \end_inset
 
@@ -1301,11 +1303,24 @@ literal "false"
 \begin_inset space ~
 \end_inset
 
-cepstral vectors in each packet, we wish to maximize redundancy elimination
- within a packet while limiting dependencies across packets to reduce the
- effect of packet loss.
- For those reasons, we use a quantization scheme inspired from video codec
- B\SpecialChar nobreakdash
+cepstral vectors in each packet, we wish to minimize redundancy within a
+ packet while limiting dependencies across packets to reduce the effect
+ of packet loss.
+ For those reasons, we use a prediction scheme (Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Prediction-and-quantization"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) inspired by video codec B\SpecialChar nobreakdash
 frames
 \begin_inset space ~
 \end_inset
@@ -1324,21 +1339,6 @@ literal "false"
 \end_inset
 
 ms.
- It is illustrated in Fig.
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Prediction-and-quantization"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-.
 \end_layout
 
 \begin_layout Standard
@@ -1358,7 +1358,7 @@ Let packet
 \begin_inset Formula $\mathbf{c}_{4k+3}$
 \end_inset
 
- independently for each packet using a 3\SpecialChar nobreakdash
+ independently using a 3\SpecialChar nobreakdash
 stage codebook with 10
 \begin_inset space ~
 \end_inset
@@ -1370,7 +1370,7 @@ bits for each stage.
 \begin_inset Formula $\mathbf{c}_{4k+3}$
 \end_inset
 
- is coded with a uniform 7\SpecialChar nobreakdash
+ is coded separately with a uniform 7\SpecialChar nobreakdash
 bit scalar quantizer (0.83
 \begin_inset space ~
 \end_inset
@@ -1380,7 +1380,7 @@ dB resolution).
 \begin_inset Formula $\mathbf{c}_{4k+1}$
 \end_inset
 
- is predictively coded from both 
+ is predictively coded using both 
 \begin_inset Formula $\mathbf{c}_{4k-1}$
 \end_inset
 
@@ -1402,14 +1402,15 @@ dB resolution).
 \end_inset
 
 .
- The difference is then coded with a 12\SpecialChar nobreakdash
-bit + sign codebook for the average
- or with an 11\SpecialChar nobreakdash
-bit + sign codebook if not, for a total of 14
+ The prediction residual is then coded with a 12\SpecialChar nobreakdash
+bit + sign codebook for
+ the average predictor or with an 11\SpecialChar nobreakdash
+bit + sign codebook if not, for a total
+ of 14
 \begin_inset space ~
 \end_inset
 
-bits 
+bits for 
 \begin_inset Formula $\mathbf{c}_{4k+1}$
 \end_inset
 
@@ -1969,8 +1970,25 @@ hours of speech from the NTT Multi-Lingual Speech Database for Telephonometry
 
 languages), from which we excluded all samples from the speakers used in
  testing.
- By varying the level and frequency response, we generate 14 hours of augmented
- speech data.
+ From the original data, we generate 14
+\begin_inset space ~
+\end_inset
+
+hours of augmented speech data as described in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Training"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
  The unquantized network was trained for 120
 \begin_inset space ~
 \end_inset
@@ -2121,7 +2139,16 @@ literal "false"
 \begin_inset space ~
 \end_inset
 
-kb/s VBR (the lowest bitrate for which the encoder defaults to wideband)
+kb/s VBR
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+the lowest bitrate for which the encoder defaults to wideband
+\end_layout
+
+\end_inset
+
  and with the narrowband MELP
 \begin_inset space ~
 \end_inset
@@ -2159,7 +2186,11 @@ kb/s wideband vocoder (wideband quality
 \end_layout
 
 \begin_layout Standard
-In a first test, we used 8
+In a first test (Set
+\begin_inset space ~
+\end_inset
+
+1), we used 8
 \begin_inset space ~
 \end_inset
 
@@ -2188,7 +2219,11 @@ literal "false"
 
 , mismatches between the training and testing database can cause a significant
  difference in the output quality.
- We measure that impact in a second test on the same model, with 8
+ We measure that impact in a second test (Set
+\begin_inset space ~
+\end_inset
+
+2) on the same model, with 8
 \begin_inset space ~
 \end_inset
 
@@ -2210,7 +2245,7 @@ listeners.
 \end_layout
 
 \begin_layout Standard
-The results presented in Fig.
+The results in Fig.
 \begin_inset space ~
 \end_inset
 
@@ -2376,8 +2411,20 @@ kb/s neural vocoder based on the LPCNet model that can be used for real-time
  The quality obtained exceeds what is achievable with existing low-bitrate
  vocoders such as MELP.
  Although other work has demonstrated similar or higher speech quality at
- similar bitrates, we believe this to be the first neural vocoder operating
- in real-time on general-purpose hardware and mobile devices.
+ similar bitrates
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kleijn2018wavenet,Garbacea2019,klejsa2018high"
+literal "false"
+
+\end_inset
+
+, we believe this to be the first neural vocoder that is sufficiently efficient
+ to operate in real-time on general-purpose hardware and mobile devices.
  We have so far focused on clean, non-reverberant speech.
  More work is needed for testing and improving the robustness to noise and
  reverberation.
@@ -2402,8 +2449,8 @@ kb/s range.
 \begin_inset space ~
 \end_inset
 
-8kb/s) we believe it should be possible to directly use the encoded LSPs
- to synthesize a higher quality output than the standard provides.
+8kb/s) it should be possible to directly use the encoded LSPs to synthesize
+ a higher quality output than the standard provides.
  In addition, using the encoded excitation as an extra input to LPCNet may
  help further reducing artifacts, turning LPCNet into a neural post-filter
  that can significantly improve the quality of any existing low-bitrate
