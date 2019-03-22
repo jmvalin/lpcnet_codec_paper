@@ -219,7 +219,7 @@ literal "false"
 \end_inset
 
  have recently made it possible to synthesize high quality speech.
- They have also be used in
+ They have also been used in
 \begin_inset space ~
 \end_inset
 
@@ -244,12 +244,16 @@ literal "false"
 \end_inset
 
  (SampleRNN) to synthesize high-quality speech from coded features, with
- a complexity ranging in the tens of GFLOPS.
+ a complexity in the order of 100
+\begin_inset space ~
+\end_inset
+
+GFLOPS.
  This typically makes it impossible to use those algorithms in real time
  without high-end hardware (if at all).
- In this work, we focus on simpler models, that are can be implemented on
- general-purpose hardware and mobile devices for real-time communication,
- and that work for any speaker using any language.
+ In this work, we focus on simpler models, that can be implemented on general-pu
+rpose hardware and mobile devices for real-time communication, and that
+ work for any speaker, in any language.
  Moreover, we target the very low bitrate of 1.6
 \begin_inset space ~
 \end_inset
@@ -259,7 +263,7 @@ kb/s, which is beyond the reach of conventional waveform speech coders.
 \end_layout
 
 \begin_layout Standard
-WaveRNN
+WaveRNN, proposed in
 \begin_inset space ~
 \end_inset
 
@@ -271,11 +275,10 @@ literal "false"
 
 \end_inset
 
- is a more computationally efficient alternative to WaveNet that uses a
- recurrent neural network (RNN) along with sparse matrices.
- Another way of reducing the complexity is to use linear prediction as a
- way of taking the burden of spectral envelope modeling away from the neural
- synthesis network
+ as a computationally efficient alternative to WaveNet, uses a recurrent
+ neural network (RNN) along with sparse matrices.
+ Another approach is to use linear prediction as a way of taking the burden
+ of spectral envelope modeling away from the neural synthesis network
 \begin_inset space ~
 \end_inset
 
@@ -316,8 +319,8 @@ noprefix "false"
 
 ), which augments WaveRNN with linear prediction to achieve low complexity
  speaker-independent speech synthesis.
- We now address how to quantize LPCNet features to achieve low-bitrate speech
- coding (Section
+ We now address quantization of the LPCNet features to achieve low-bitrate
+ speech coding (Section
 \begin_inset space ~
 \end_inset
 
@@ -331,7 +334,7 @@ noprefix "false"
 
 \end_inset
 
-) and then discuss training considerations in Section
+), and then discuss training considerations in Section
 \begin_inset space ~
 \end_inset
 
@@ -412,29 +415,41 @@ noprefix "false"
 
 \SpecialChar nobreakdash
 law.
- To avoid audible quantization noise, a pre-emphasis filter 
+ It is divided in two parts: a frame rate network that computes conditioning
+ features for each 10\SpecialChar nobreakdash
+ms frame, and a sample rate network that computes sample
+ probability distributions one at a time.
+ To avoid audible quantization noise we apply a pre-emphasis filter 
 \begin_inset Formula $E(z)=1-\alpha z^{-1}$
 \end_inset
 
- is used on the input speech (with 
+ on the input speech (with 
 \begin_inset Formula $\alpha=0.85$
 \end_inset
 
-) and the inverse (de-emphasis) filter is applied to the output.
+) and the inverse (de-emphasis) filter on the output.
  This shapes the noise and makes it less perceptible.
  In addition to using the previously generated speech sample 
 \begin_inset Formula $s_{t-1}$
 \end_inset
 
-, LPCNet also uses the current prediction 
-\begin_inset Formula $p_{t}$
+, LPCNet also uses the 
+\begin_inset Formula $16^{th}$
+\end_inset
+
+ order prediction 
+\begin_inset Formula $p_{t}=\sum_{i=1}^{16}a_{i}s_{t-i}$
 \end_inset
 
  and the previously generated excitation 
 \begin_inset Formula $e_{t-1}$
 \end_inset
 
-.
+ (
+\begin_inset Formula $e_{t}=s_{t}-p_{t}$
+\end_inset
+
+).
  
 \end_layout
 
@@ -452,19 +467,19 @@ literal "false"
 \end_inset
 
  layer.
- Considering that the signal 
+ Considering that 
 \begin_inset Formula $s_{t-1}$
 \end_inset
 
-, prediction 
+, 
 \begin_inset Formula $p_{t}$
 \end_inset
 
- and excitation 
+, and 
 \begin_inset Formula $e_{t-1}$
 \end_inset
 
- inputs are discrete, we can pre-compute the contribution 
+ are discrete, we can pre-compute the contribution 
 \begin_inset Formula $\mathbf{v}_{i}^{\left(\cdot,\cdot\right)}$
 \end_inset
 
@@ -482,7 +497,11 @@ literal "false"
 \end_inset
 
  can be computed only once per frame.
- 
+ After these simplifications, only the recurrent matrices 
+\begin_inset Formula $\mathbf{W}_{\cdot}$
+\end_inset
+
+ remain and the sample rate network is computed as
 \begin_inset Formula 
 \begin{align}
 \mathbf{u}_{t}= & \sigma\left(\mathbf{W}_{u}\mathbf{h}_{t-1}+\mathbf{v}_{s_{t-1}}^{\left(u,s\right)}+\mathbf{v}_{p_{t}}^{\left(u,p\right)}+\mathbf{v}_{e_{t-1}}^{\left(u,e\right)}+\mathbf{g}^{\left(u\right)}\right)\nonumber \\
@@ -494,15 +513,7 @@ P\left(e_{t}\right) & =\mathrm{softmax}\left(\mathrm{dual\_fc}\left(\mathrm{GRU_
 
 \end_inset
 
-where the 
-\begin_inset Formula $\mathbf{W}$
-\end_inset
-
- matrices are the 
-\begin_inset Formula $\mathrm{GRU_{A}}$
-\end_inset
-
- weights, 
+where 
 \begin_inset Formula $\sigma\left(x\right)$
 \end_inset
 
@@ -548,15 +559,19 @@ where
 
 \begin_layout Standard
 Throughout this paper, biases are omitted for clarity.
- The synthesized output samples 
-\begin_inset Formula $s_{t}$
+ The synthesized excitation sample 
+\begin_inset Formula $e_{t}$
 \end_inset
 
  is obtained by sampling from the probability distribution 
-\begin_inset Formula $P\left(s_{t}\right)$
+\begin_inset Formula $P\left(e_{t}\right)$
 \end_inset
 
- after lowering the temperature of voiced frames as described in eq.
+ after lowering the 
+\emph on
+temperature
+\emph default
+ of voiced frames as described in eq.
 \begin_inset space ~
 \end_inset
 
@@ -569,7 +584,7 @@ literal "false"
 \end_inset
 
 .
- As a way of reducing the complexity, the 
+ As a way of reducing the complexity, 
 \begin_inset Formula $\mathrm{GRU_{A}}$
 \end_inset
 
@@ -698,11 +713,7 @@ name "sec:Features_and_quantization"
 
 \begin_layout Standard
 LPCNet is designed to operate with 10\SpecialChar nobreakdash
-ms frames containing 20
-\begin_inset space ~
-\end_inset
-
-features.
+ms frames.
  Each frame includes 18
 \begin_inset space ~
 \end_inset
@@ -711,7 +722,11 @@ cepstral coefficients, a pitch period (between 16 and 256
 \begin_inset space ~
 \end_inset
 
-samples) and a pitch correlation (between 0 and 1).
+samples), and a pitch correlation (between 0 and
+\begin_inset space ~
+\end_inset
+
+1).
  To achieve a low bitrate, we use 40\SpecialChar nobreakdash
 ms packets, each representing 4
 \begin_inset space ~
@@ -753,7 +768,7 @@ ms, LPCNet has a synthesis look-ahead of 25
 \begin_inset space ~
 \end_inset
 
-ms, which includes 20
+ms: 20
 \begin_inset space ~
 \end_inset
 
@@ -800,8 +815,8 @@ Extracting the correct pitch (without period doubling or halving) is very
  important for a vocoder since no residual is coded to make up for prediction
  errors.
  During development, we have observed that unlike traditional vocoders,
- the neural vocoder has some ability to compensate for incorrect pitch values,
- but only up to a point.
+ LPCNet has some ability to compensate for incorrect pitch values, but only
+ up to a point.
  Moreover, that ability is reduced when the cepstrum is quantized.
  
 \end_layout
@@ -817,10 +832,7 @@ ms sub-frames, and find the set of pitch
 \begin_inset Formula $\tau_{i}$
 \end_inset
 
- that maximize the following expression:
-\end_layout
-
-\begin_layout Standard
+ that maximize
 \begin_inset Formula 
 \[
 J=\sum_{i}\left[w_{i}r\left(\tau_{i}\right)+\Theta\left(\tau_{i}-\tau_{i-1}\right)\right]\,,
