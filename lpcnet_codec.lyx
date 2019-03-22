@@ -150,7 +150,12 @@ Neural speech synthesis algorithms are a promising new approach for coding
  model.
  The use of linear prediction and sparse recurrent networks makes it possible
  to achieve real-time operation on general-purpose hardware.
- We demonstrate that..
+ We demonstrate that LPCNet operating at 1.6
+\begin_inset space ~
+\end_inset
+
+kb/s achieves significantly higher quality than MELP.
+ 
 \end_layout
 
 \begin_layout Standard
