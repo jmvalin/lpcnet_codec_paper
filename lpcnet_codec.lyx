@@ -201,6 +201,12 @@ literal "false"
 \end_inset
 
 , modeling the excitation signal has remained a challenge.
+ For that reason, parametric coders are rarely used above around 4
+\begin_inset space ~
+\end_inset
+
+kb/s.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -427,8 +433,8 @@ noprefix "false"
 law.
  It is divided in two parts: a frame rate network that computes conditioning
  features for each 10\SpecialChar nobreakdash
-ms frame, and a sample rate network that computes sample
- probability distributions one at a time.
+ms frame, and a sample rate network that computes condition
+al sample probabilities.
  To avoid audible quantization noise we apply a pre-emphasis filter 
 \begin_inset Formula $E(z)=1-\alpha z^{-1}$
 \end_inset
@@ -1369,7 +1375,11 @@ Let packet
 \end_inset
 
  independently using a 3\SpecialChar nobreakdash
-stage codebook with 10
+stage codebook with 17
+\begin_inset space ~
+\end_inset
+
+dimensions and 10
 \begin_inset space ~
 \end_inset
 
@@ -1412,11 +1422,12 @@ dB resolution).
 \end_inset
 
 .
- The prediction residual is then coded with a 12\SpecialChar nobreakdash
-bit + sign codebook for
- the average predictor or with an 11\SpecialChar nobreakdash
-bit + sign codebook if not, for a total
- of 14
+ The 18\SpecialChar nobreakdash
+dimensional prediction residual is then coded with a 11\SpecialChar nobreakdash
+bit + sign
+ codebook for the average predictor or with an 10\SpecialChar nobreakdash
+bit + sign codebook if
+ not, for a total of 13
 \begin_inset space ~
 \end_inset
 
@@ -1474,8 +1485,8 @@ options for each vector, we have 9
 \end_inset
 
 possible combinations.
- By eliminating the least useful combination (
-\begin_inset Formula $\mathbf{c}_{4k}=\mathbf{c}_{4k+1}=\mathbf{c}_{4k+2}$
+ By eliminating the least useful combination (forcing both equal to 
+\begin_inset Formula $\mathbf{c}_{4k+1}$
 \end_inset
 
 ), we can code the remaining ones with 3
@@ -2113,7 +2124,7 @@ Quality
 \end_layout
 
 \begin_layout Standard
-We conducted a subjective listening test with a MUSHRA-derived methodology
+We conducted a subjective listening test with a MUSHRA-inspired methodology
 \begin_inset space ~
 \end_inset
 
