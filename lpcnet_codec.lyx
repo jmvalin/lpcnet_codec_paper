@@ -704,10 +704,6 @@ name "fig:Overview-of-LPCNet"
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
@@ -2225,7 +2221,8 @@ male and 2
 
 female speakers.
  The samples are part of the NTT database used for training, but all samples
- from the selected speakers were excluded from the training set.
+ from the selected speakers for the test were excluded from the training
+ set.
  As reported in
 \begin_inset space ~
 \end_inset
@@ -2286,8 +2283,8 @@ noprefix "false"
 
 kb/s LPCNet clearly outperforms the MELP vocoder, making it a viable choice
  for very low bitrates.
- The fact that LPCNet with unquantized achieves slightly higher quality
- than Opus at 9
+ The fact that LPCNet with unquantized features achieves slightly higher
+ quality than Opus at 9
 \begin_inset space ~
 \end_inset
 
