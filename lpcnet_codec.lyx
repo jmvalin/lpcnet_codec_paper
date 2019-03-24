@@ -2287,7 +2287,7 @@ y (higher quality is achievable with a larger model), we include LPCNet
 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "vos2013voice"
+key "rfc6716"
 literal "false"
 
 \end_inset
@@ -2546,7 +2546,8 @@ Acknowledgements
 \end_layout
 
 \begin_layout Standard
-We'd like to acknowledge that there are acknowledgements.
+We thank David Rowe for his feedback and suggestions, as well as for implementin
+g some of the Neon optimizations.
 \end_layout
 
 \begin_layout Standard
