@@ -846,9 +846,9 @@ ms sub-frames, and find the set of pitch
 
  that maximize
 \begin_inset Formula 
-\[
-J=\sum_{i}\left[w_{i}r\left(\tau_{i}\right)-\Theta\left(\tau_{i}-\tau_{i-1}\right)\right]\,,
-\]
+\begin{equation}
+J=\sum_{i}\left[w_{i}r\left(\tau_{i}\right)-\Theta\left(\tau_{i}-\tau_{i-1}\right)\right]\,,\label{eq:pitch_cost}
+\end{equation}
 
 \end_inset
 
@@ -867,12 +867,12 @@ ms packet,
 
  is a transition penalty defined as 
 \begin_inset Formula 
-\[
+\begin{equation}
 \Theta\left(\Delta\tau\right)=\begin{cases}
 0.02\left(\Delta\tau\right)^{2} & \mathrm{if}\,\left|\Delta\tau\right|\leq4\\
 6 & \mathrm{otherwise}
-\end{cases}\ ,
-\]
+\end{cases}\ ,\label{eq:pitch_transition}
+\end{equation}
 
 \end_inset
 
@@ -894,9 +894,9 @@ literal "false"
 
 
 \begin_inset Formula 
-\[
-r\left(\tau\right)=\frac{2\sum_{n}e\left(n\right)e\left(n-\tau\right)}{\sum_{n}e^{2}\left(n\right)+\sum_{n}e^{2}\left(n-\tau\right)}\ .
-\]
+\begin{equation}
+r\left(\tau\right)=\frac{2\sum_{n}e\left(n\right)e\left(n-\tau\right)}{\sum_{n}e^{2}\left(n\right)+\sum_{n}e^{2}\left(n-\tau\right)}\ .\label{eq:pitch_correlation}
+\end{equation}
 
 \end_inset
 
@@ -1763,9 +1763,9 @@ Complexity and Implementation
 \begin_layout Standard
 The number of weights in the sample rate network is approximately
 \begin_inset Formula 
-\[
-W=3dN_{A}^{2}+3N_{B}\left(N_{A}+N_{B}\right)+2N_{B}Q\,,
-\]
+\begin{equation}
+W=3dN_{A}^{2}+3N_{B}\left(N_{A}+N_{B}\right)+2N_{B}Q\,,\label{eq:weight_count}
+\end{equation}
 
 \end_inset
 
