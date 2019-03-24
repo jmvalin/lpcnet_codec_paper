@@ -173,7 +173,7 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-Low complexity parametric codecs have existed for a long time
+Very low bitrate parametric codecs have existed for a long time
 \begin_inset space ~
 \end_inset
 
@@ -186,9 +186,9 @@ literal "false"
 \end_inset
 
 , but their quality has always been severely limited.
- While they are generally efficient at modeling the spectral envelope (vocal
- tract response) of the speech using linear prediction, no such simple model
- exists for the excitation.
+ While they are efficient at modeling the spectral envelope (vocal tract
+ response) of the speech using linear prediction, no such simple model exists
+ for the excitation.
  Despite some advances
 \begin_inset space ~
 \end_inset
