@@ -154,8 +154,9 @@ Neural speech synthesis algorithms are a promising new approach for coding
 \begin_inset space ~
 \end_inset
 
-kb/s achieves significantly higher quality than MELP.
- 
+kb/s achieves significantly higher quality than MELP and that uncompressed
+ LPCNet can exceed the quality of a waveform codec operating at low bitrate.
+ This opens the way for new codec designs based on neural synthesis models.
 \end_layout
 
 \begin_layout Standard
@@ -201,7 +202,7 @@ literal "false"
 \end_inset
 
 , modeling the excitation signal has remained a challenge.
- For that reason, parametric coders are rarely used above around 4
+ For that reason, parametric codecs are rarely used above 3
 \begin_inset space ~
 \end_inset
 
@@ -1285,7 +1286,7 @@ name "subsec:cepstrum"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset ERT
