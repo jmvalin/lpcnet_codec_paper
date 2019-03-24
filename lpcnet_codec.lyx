@@ -564,7 +564,7 @@ law.
 \mathbf{r}_{t}= & \sigma\left(\mathbf{W}_{r}\mathbf{h}_{t-1}+\mathbf{v}_{s_{t-1}}^{\left(r,s\right)}+\mathbf{v}_{p_{t}}^{\left(r,p\right)}+\mathbf{v}_{e_{t-1}}^{\left(r,e\right)}+\mathbf{g}^{\left(r\right)}\right)\label{eq:LPCNet}\\
 \widetilde{\mathbf{h}}_{t}= & \tau\left(\mathbf{r}_{t}\circ\left(\mathbf{W}_{h}\mathbf{h}_{t-1}\right)+\mathbf{v}_{s_{t-1}}^{\left(h,s\right)}+\mathbf{v}_{p_{t}}^{\left(h,p\right)}+\mathbf{v}_{e_{t-1}}^{\left(h,e\right)}+\mathbf{g}^{\left(h\right)}\right)\nonumber \\
 \mathbf{h}_{t}= & \mathbf{u}_{t}\circ\mathbf{h}_{t-1}+\left(1-\mathbf{u}_{t}\right)\circ\widetilde{\mathbf{h}}_{t}\nonumber \\
-P\left(e_{t}\right) & =\mathrm{softmax}\left(\mathrm{dual\_fc}\left(\mathrm{GRU_{B}}\left(\mathbf{h}_{t}\right)\right)\right)\ ,\nonumber 
+P\left(e_{t}\right) & =\mathrm{softmax}\left(\mathrm{dual\_fc}\left(\mathrm{GRU_{B}}\left(\mathbf{h}_{t}\right)\right)\right)\,,\nonumber 
 \end{align}
 
 \end_inset
@@ -589,7 +589,7 @@ where
  The dual fully-connected (dual_fc) layer is defined as
 \begin_inset Formula 
 \begin{equation}
-\mathrm{dual\_fc}(\mathbf{x})=\mathbf{a}_{1}\circ\tau\left(\mathbf{W}_{1}\mathbf{x}\right)+\mathbf{a}_{2}\circ\tau\left(\mathbf{W}_{2}\mathbf{x}\right)\ ,\label{eq:dual_fc}
+\mathrm{dual\_fc}(\mathbf{x})=\mathbf{a}_{1}\circ\tau\left(\mathbf{W}_{1}\mathbf{x}\right)+\mathbf{a}_{2}\circ\tau\left(\mathbf{W}_{2}\mathbf{x}\right)\,,\label{eq:dual_fc}
 \end{equation}
 
 \end_inset
@@ -911,7 +911,7 @@ ms packet,
 \Theta\left(\Delta\tau\right)=\begin{cases}
 0.02\left(\Delta\tau\right)^{2} & \mathrm{if}\,\left|\Delta\tau\right|\leq4\\
 6 & \mathrm{otherwise}
-\end{cases}\ ,\label{eq:pitch_transition}
+\end{cases}\,,\label{eq:pitch_transition}
 \end{equation}
 
 \end_inset
@@ -935,7 +935,7 @@ literal "false"
 
 \begin_inset Formula 
 \begin{equation}
-r\left(\tau\right)=\frac{2\sum_{n}e\left(n\right)e\left(n-\tau\right)}{\sum_{n}e^{2}\left(n\right)+\sum_{n}e^{2}\left(n-\tau\right)}\ .\label{eq:pitch_correlation}
+r\left(\tau\right)=\frac{2\sum_{n}e\left(n\right)e\left(n-\tau\right)}{\sum_{n}e^{2}\left(n\right)+\sum_{n}e^{2}\left(n-\tau\right)}\,.\label{eq:pitch_correlation}
 \end{equation}
 
 \end_inset
