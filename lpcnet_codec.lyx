@@ -999,7 +999,7 @@ semitones) between the first and last sub-frame.
  range with two different codes for 0 (constant modulation), one of which
  signaling that the pitch correlation is less than 0.3 (the modulation is
  zero when the pitch correlation is too small).
- Two extra bits refine the value of the pitch correlation within the remainng
+ Two extra bits refine the value of the pitch correlation within the remaining
  range (either 
 \begin_inset Formula $\left[0,\,0.3\right]$
 \end_inset
@@ -1118,7 +1118,7 @@ Pitch modulation
 \begin_inset Text
 
 \begin_layout Plain Layout
-Pitch gain
+Pitch correlation
 \end_layout
 
 \end_inset
