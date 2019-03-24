@@ -1577,87 +1577,6 @@ name "sec:Training"
 \end_layout
 
 \begin_layout Standard
-When decoding speech, the sample rate network operates on the synthesized
- speech rather than on the 
-\emph on
-ground-truth
-\emph default
- clean speech.
- That mismatch between training and inference can increase the speech distortion
-, in turn increasing the mismatch.
- To make the network more robust to the mismatch, we add noise to the training
- data, as originally suggested in
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset CommandInset citation
-LatexCommand cite
-key "jin2018fftnet"
-literal "false"
-
-\end_inset
-
-.
- As an improvement over our previous work
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset CommandInset citation
-LatexCommand cite
-key "lpcnet"
-literal "false"
-
-\end_inset
-
-, the noise is added to the excitation inside the prediction loop, making
- the signal and excitation noise consistent with each other, as shown in
- Fig.
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Noise-injection"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-As a way of making the model more robust to input variations, we use data
- augmentation on the training database.
- The speech level is varied over a 40
-\begin_inset space ~
-\end_inset
-
-dB range and the frequency response is varied according to eq.
-\begin_inset space ~
-\end_inset
-
-(7) in
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset CommandInset citation
-LatexCommand cite
-key "valin2017hybrid"
-literal "false"
-
-\end_inset
-
-.
- 
-\end_layout
-
-\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -1747,6 +1666,87 @@ name "fig:Noise-injection"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+When decoding speech, the sample rate network operates on the synthesized
+ speech rather than on the 
+\emph on
+ground-truth
+\emph default
+ clean speech.
+ That mismatch between training and inference can increase the speech distortion
+, in turn increasing the mismatch.
+ To make the network more robust to the mismatch, we add noise to the training
+ data, as originally suggested in
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "jin2018fftnet"
+literal "false"
+
+\end_inset
+
+.
+ As an improvement over our previous work
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lpcnet"
+literal "false"
+
+\end_inset
+
+, the noise is added to the excitation inside the prediction loop, making
+ the signal and excitation noise consistent with each other, as shown in
+ Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Noise-injection"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+As a way of making the model more robust to input variations, we use data
+ augmentation on the training database.
+ The speech level is varied over a 40
+\begin_inset space ~
+\end_inset
+
+dB range and the frequency response is varied according to eq.
+\begin_inset space ~
+\end_inset
+
+(7) in
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "valin2017hybrid"
+literal "false"
+
+\end_inset
+
+.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -2190,6 +2190,76 @@ Quality
 \end_layout
 
 \begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering{
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename mushra1.pdf
+	width 100col%
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Subjective quality (MUSHRA) results for both listening tests.
+ Set
+\begin_inset space ~
+\end_inset
+
+1 is taken from the NTT database, while Set 2 consists of Opus testvector
+ samples.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Subjective-quality-MUSHRA"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 We conducted a subjective listening test with a MUSHRA-inspired methodology
 \begin_inset space ~
 \end_inset
@@ -2381,80 +2451,6 @@ languages, it is expected to also work in those languages.
  While we only tested on English, informal listening indicates that the
  quality obtained on French is comparable to that on English.
  
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-centering{
-\end_layout
-
-\end_inset
-
-
-\begin_inset Graphics
-	filename mushra1.pdf
-	width 100col%
-
-\end_inset
-
-
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Subjective quality (MUSHRA) results for both listening tests.
- Set
-\begin_inset space ~
-\end_inset
-
-1 is taken from the NTT database, while Set 2 consists of Opus testvector
- samples.
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Subjective-quality-MUSHRA"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
