@@ -1955,7 +1955,8 @@ literal "false"
 \begin_inset space ~
 \end_inset
 
-GFLOPS – mostly from the two-hidden-layer MLPs with 1024 units per layer.
+GFLOPS – mostly from the MLP with two hiddens layers and 1024 units per
+ layer.
  The complexity of the WaveNet-based codec in
 \begin_inset space ~
 \end_inset
