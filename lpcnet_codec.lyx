@@ -646,7 +646,7 @@ literal "false"
 
  uses sparse recurrent matrices with non-zero blocks of size 16x1 to ensure
  efficient vectorization.
- Because the hidden state update is more important then the reset and update
+ Because the hidden state update is more important than the reset and update
  gates, we keep 20% of the weights in 
 \begin_inset Formula $\mathbf{W}_{h}$
 \end_inset
@@ -807,7 +807,7 @@ noprefix "false"
 \begin_inset space ~
 \end_inset
 
-kb/s (CBR).
+kb/s (constant bitrate).
  The prediction coefficients are computed using the quantized cepstrum.
 \end_layout
 
@@ -2508,8 +2508,8 @@ literal "false"
 
 \end_inset
 
-, we believe this to be the first neural vocoder that is sufficiently efficient
- to operate in real-time on general-purpose hardware and mobile devices.
+, we believe this is the first neural vocoder that can operate in real-time
+ on general-purpose hardware and mobile devices.
  We have so far focused on clean, non-reverberant speech.
  More work is needed for testing and improving the robustness to noise and
  reverberation.
