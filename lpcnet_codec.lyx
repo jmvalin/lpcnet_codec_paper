@@ -2455,7 +2455,7 @@ languages, it is expected to also work in those languages.
 \end_layout
 
 \begin_layout Standard
-A subset of the samples used in the listening test is available at 
+A subset of the samples from the listening test is available at 
 \begin_inset ERT
 status open
 
@@ -2463,7 +2463,9 @@ status open
 
 
 \backslash
-url{https://people.xiph.org/~jm/demo/lpcnet_codec/}
+footnotesize{
+\backslash
+url{https://people.xiph.org/~jm/demo/lpcnet_codec/}}
 \end_layout
 
 \end_inset
