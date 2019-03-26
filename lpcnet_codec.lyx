@@ -2450,8 +2450,8 @@ Since the LPCNet model was trained on 21
 
 languages, it is expected to also work in those languages.
  While we only tested on English, informal listening indicates that the
- quality obtained on French is comparable to that on English.
- 
+ quality obtained on French, Spanish, and Swedish is comparable to that
+ on English.
 \end_layout
 
 \begin_layout Standard
