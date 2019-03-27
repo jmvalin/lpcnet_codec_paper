@@ -1438,7 +1438,18 @@ Let packet
 \begin_inset Formula $\mathbf{c}_{4k+3}$
 \end_inset
 
-, we first code all but the first component of 
+.
+ We start by coding the first component (C0) of 
+\begin_inset Formula $\mathbf{c}_{4k+3}$
+\end_inset
+
+ independently, with a uniform 7\SpecialChar nobreakdash
+bit scalar quantizer (0.83
+\begin_inset space ~
+\end_inset
+
+dB resolution).
+ We then code the remaining component of 
 \begin_inset Formula $\mathbf{c}_{4k+3}$
 \end_inset
 
@@ -1454,16 +1465,6 @@ dimensions and 10
 bits for each stage.
  An M-best (survivor) search helps reduce the quantization error, but is
  not strictly necessary.
- The first component (C0) of 
-\begin_inset Formula $\mathbf{c}_{4k+3}$
-\end_inset
-
- is coded separately with a uniform 7\SpecialChar nobreakdash
-bit scalar quantizer (0.83
-\begin_inset space ~
-\end_inset
-
-dB resolution).
  From there, vector 
 \begin_inset Formula $\mathbf{c}_{4k+1}$
 \end_inset
@@ -1705,9 +1706,9 @@ literal "false"
 
 \end_inset
 
-, the noise is added to the excitation inside the prediction loop, making
- the signal and excitation noise consistent with each other, as shown in
- Fig.
+, Laplace-distributed noise is added to the excitation inside the prediction
+ loop, making the signal and excitation noise consistent with each other,
+ as shown in Fig.
 \begin_inset space ~
 \end_inset
 
