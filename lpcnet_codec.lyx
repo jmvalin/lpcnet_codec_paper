@@ -294,8 +294,8 @@ literal "false"
 
  as a computationally efficient alternative to WaveNet, uses a recurrent
  neural network (RNN).
- Another approach is to use linear prediction as a way of taking the burden
- of spectral envelope modeling away from the neural synthesis network
+ Another approach is to use linear prediction to take the burden of spectral
+ envelope modeling away from the neural synthesis network
 \begin_inset space ~
 \end_inset
 
