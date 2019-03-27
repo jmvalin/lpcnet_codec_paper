@@ -1828,7 +1828,11 @@ where
 \begin_inset Formula $d$
 \end_inset
 
- is the density of the sparse GRU, 
+
+\begin_inset space ~
+\end_inset
+
+is the density of the sparse GRU, and 
 \begin_inset Formula $Q=256$
 \end_inset
 
