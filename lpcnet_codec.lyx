@@ -280,7 +280,7 @@ kb/s, which is beyond the reach of conventional waveform speech coders.
 \end_layout
 
 \begin_layout Standard
-WaveRNN, proposed in
+To reduce computational complexity, WaveRNN
 \begin_inset space ~
 \end_inset
 
@@ -292,10 +292,9 @@ literal "false"
 
 \end_inset
 
- as a computationally efficient alternative to WaveNet, uses a recurrent
- neural network (RNN).
- Another approach is to use linear prediction to take the burden of spectral
- envelope modeling away from the neural synthesis network
+ uses a sparse recurrent neural network (RNN).
+ Other models use linear prediction to remove the burden of spectral envelope
+ modeling from the neural synthesis network
 \begin_inset space ~
 \end_inset
 
@@ -307,8 +306,7 @@ literal "false"
 
 \end_inset
 
-.
- In previous work, we proposed LPCNet
+, including our previous LPCNet work
 \begin_inset space ~
 \end_inset
 
@@ -336,7 +334,10 @@ noprefix "false"
 
 ), which augments WaveRNN with linear prediction to achieve low complexity
  speaker-independent speech synthesis.
- We now address quantization of the LPCNet features to achieve low-bitrate
+\end_layout
+
+\begin_layout Standard
+We now address quantization of the LPCNet features to achieve low-bitrate
  speech coding (Section
 \begin_inset space ~
 \end_inset
@@ -351,7 +352,8 @@ noprefix "false"
 
 \end_inset
 
-), and then discuss training considerations in Section
+).
+ Section
 \begin_inset space ~
 \end_inset
 
@@ -365,8 +367,7 @@ noprefix "false"
 
 \end_inset
 
-.
- We provide results in Section
+ discusses training considerations, and Section
 \begin_inset space ~
 \end_inset
 
@@ -380,7 +381,8 @@ noprefix "false"
 
 \end_inset
 
- and conclude with ideas for improvement in Section
+ presents our results.
+ We conclude with ideas for improvement in Section
 \begin_inset space ~
 \end_inset
 
@@ -554,7 +556,7 @@ law.
 
  can be computed only once per frame.
  After these simplifications, only the recurrent matrices 
-\begin_inset Formula $\mathbf{W}_{\cdot}$
+\begin_inset Formula $\mathbf{W}_{\left(\cdot\right)}$
 \end_inset
 
  remain and the sample rate network is computed as
