@@ -306,7 +306,8 @@ literal "false"
 
 \end_inset
 
-, including our previous LPCNet work
+.
+ That includes our previous LPCNet work
 \begin_inset space ~
 \end_inset
 
@@ -439,7 +440,11 @@ literal "false"
 \end_inset
 
  layer.
- It uses the previous audio sample 
+ At time 
+\begin_inset Formula $t$
+\end_inset
+
+, it uses the previous audio sample 
 \begin_inset Formula $s_{t-1}$
 \end_inset
 
@@ -948,21 +953,20 @@ r\left(\tau\right)=\frac{2\sum_{n}e\left(n\right)e\left(n-\tau\right)}{\sum_{n}e
 \begin_layout Standard
 The optimal path can be computed efficiently using dynamic programming with
  a Viterbi search.
- Since the entire audio is not available at once, the running values of
- 
+ Since the entire audio is not available at once, the values of 
 \begin_inset Formula $J$
 \end_inset
 
- are updated for every sub-frame and the Viterbi backtrack pass is computed
- once per 40\SpecialChar nobreakdash
+ in the forward pass are updated normally for every sub-frame but the Viterbi
+ backtrack pass is computed once per 40\SpecialChar nobreakdash
 ms packet, over all 8
 \begin_inset space ~
 \end_inset
 
 sub-frames.
  While that does not guarantee finding the global optimal path, it ensures
- a consistent pitch over the duration of the packet.
- 
+ a consistent pitch over the duration of the packet, which is important
+ for quantization.
 \end_layout
 
 \begin_layout Standard
@@ -2464,9 +2468,9 @@ status open
 
 \begin_layout Plain Layout
 
-
+{
 \backslash
-footnotesize{
+footnotesize
 \backslash
 url{https://people.xiph.org/~jm/demo/lpcnet_codec/}}
 \end_layout
