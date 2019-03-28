@@ -10,7 +10,7 @@
 
 \usepackage{INTERSPEECH2019}
 
-\usepackage[pdftex,linkcolor=black,urlcolor=black,citecolor=black,pdfpagemode=None,pdfstartview=FitH,pdfview=FitH,colorlinks=true,pdftitle=LPCNet: Improving Neural Speech Synthesis Through Linear Prediction,pdfauthor=Jean-Marc Valin]{hyperref}
+\usepackage[pdftex,linkcolor=black,urlcolor=black,citecolor=black,pdfpagemode=None,pdfstartview=FitH,pdfview=FitH,colorlinks=true,pdftitle=A Real-Time Wideband Neural Vocoder at 1.6 kb/s Using LPCNet,pdfauthor=Jean-Marc Valin]{hyperref}
 \end_preamble
 \use_default_options false
 \maintain_unincluded_children false
