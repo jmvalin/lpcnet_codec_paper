@@ -1798,7 +1798,7 @@ url{https://github.com/mozilla/LPCNet/}
 .
  The evaluation in this section is based on commit 
 \family typewriter
-343e35f
+3000fa2
 \family default
 .
 \end_layout
